@@ -9,7 +9,7 @@
     write-host $output -ForegroundColor Green
     $output | Out-File -FilePath actual.log -Append -Encoding utf8
 
-    & $fixie src\$project\bin\$configuration\$project.dll | Tee-Object -Variable output
+    & $fixie src\$project\bin\$configuration\net452\$project.dll | Tee-Object -Variable output
     $output | Out-File -FilePath actual.log -Append -Encoding utf8
 }
 
@@ -87,22 +87,3 @@ function run-build($mainBlock) {
         exit 1
     }
 }
-
-function get-msbuild-path {
-    # Find the highest installed version of msbuild.exe.
-
-    $regLocalKey = $null
-
-    $regLocalKey = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::LocalMachine,[Microsoft.Win32.RegistryView]::Registry32)
-
-    $versionKeyName = $regLocalKey.OpenSubKey('SOFTWARE\Microsoft\MSBuild\ToolsVersions\').GetSubKeyNames() | Sort-Object {[double]$_} -Descending
-
-    $keyToReturn = ('SOFTWARE\Microsoft\MSBuild\ToolsVersions\{0}' -f $versionKeyName)
-
-    $path = ( '{0}msbuild.exe' -f $regLocalKey.OpenSubKey($keyToReturn).GetValue('MSBuildToolsPath'))
-
-    return $path
-}
-
-new-alias msbuild (get-msbuild-path)
-new-alias nuget tools\NuGet.exe

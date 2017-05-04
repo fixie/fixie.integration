@@ -8,8 +8,4 @@
 *.sln text
 *.csproj text
 *.cs text diff=csharp
-*.config text
 *.DotSettings
-
-*.exe binary
-*.dll binary

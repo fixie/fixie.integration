@@ -9,15 +9,15 @@ function License {
 }
 
 function Clean {
-    exec { msbuild /t:clean /v:q /nologo /p:Configuration=$configuration src\Fixie.Integration.sln }
+    exec { dotnet clean src -c $configuration }
 }
 
 function Restore {
-    exec { nuget restore src\Fixie.Integration.sln -source https://api.nuget.org/v3/index.json -RequireConsent -o "src\packages" }
+    exec { dotnet restore src --packages packages -s https://api.nuget.org/v3/index.json }
 }
 
 function Build {
-    exec { msbuild /t:build /v:q /nologo /p:Configuration=$configuration src\Fixie.Integration.sln }
+    exec { dotnet build src -c $configuration }
 }
 
 function Test {
