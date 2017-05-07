@@ -1,0 +1,6 @@
+/src/.vs/
+/src/packages/
+/src/**/bin/
+/src/**/obj/
+/src/*/*.csproj.user
+actual.log

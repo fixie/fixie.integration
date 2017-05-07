@@ -1,0 +1,104 @@
+﻿====== Fixie.Console.exe DefaultConvention.Tests.dll ======
+------ Testing Assembly DefaultConvention.Tests.dll ------
+
+.ctor
+ShouldAdd
+Dispose
+
+.ctor
+ShouldSubtract
+Dispose
+
+.ctor
+ShouldFail
+Dispose
+
+Test 'DefaultConvention.Tests.CalculatorTests.ShouldFail' failed: System.Exception
+This test is written to fail, to demonstrate failure reporting.
+   at DefaultConvention.Tests.CalculatorTests.ShouldFail() in C:\dev\fixie.integration\src\DefaultConvention.Tests\CalculatorTests.cs:line 31
+
+ChildTest
+BaseTest
+ChildTest
+BaseTest
+6 passed, 1 failed, took 0.02 seconds (Fixie 1.0.2).
+
+====== Fixie.Console.exe CustomConvention.Tests.dll ======
+------ Testing Assembly CustomConvention.Tests.dll ------
+
+.ctor
+ShouldInferGenericTypes<System.Int32>(1, 2, System.Int32)
+ShouldInferGenericTypes<System.Int64>(2, 4, System.Int64)
+Dispose
+
+.ctor
+ShouldAdd
+ShouldAdd(2, 3, 5)
+ShouldAdd(3, 5, 8)
+ShouldSubtract
+Dispose
+
+Test 'CustomConvention.Tests.SkippedTests.OnlyRunsWhenExplicitlyInvoked' skipped: [Explicit] tests run only when they are individually selected for execution.
+Test 'CustomConvention.Tests.SkippedTests.SkippedWithReason' skipped: Skipped with reason.
+Test 'CustomConvention.Tests.SkippedTests.SkippedWithoutReason' skipped
+InnerTest
+InnerInnerTest
+8 passed, 0 failed, 3 skipped, took 0.03 seconds (Fixie 1.0.2).
+
+====== Fixie.Console.exe x64.Tests.dll ======
+------ Testing Assembly x64.Tests.dll ------
+
+1 passed, 0 failed, took 0.00 seconds (Fixie 1.0.2).
+
+====== Fixie.Console.x86.exe DefaultConvention.Tests.dll ======
+------ Testing Assembly DefaultConvention.Tests.dll ------
+
+.ctor
+ShouldAdd
+Dispose
+
+.ctor
+ShouldSubtract
+Dispose
+
+.ctor
+ShouldFail
+Dispose
+
+Test 'DefaultConvention.Tests.CalculatorTests.ShouldFail' failed: System.Exception
+This test is written to fail, to demonstrate failure reporting.
+   at DefaultConvention.Tests.CalculatorTests.ShouldFail() in C:\dev\fixie.integration\src\DefaultConvention.Tests\CalculatorTests.cs:line 31
+
+ChildTest
+BaseTest
+ChildTest
+BaseTest
+6 passed, 1 failed, took 0.01 seconds (Fixie 1.0.2).
+
+====== Fixie.Console.x86.exe CustomConvention.Tests.dll ======
+------ Testing Assembly CustomConvention.Tests.dll ------
+
+.ctor
+ShouldInferGenericTypes<System.Int32>(1, 2, System.Int32)
+ShouldInferGenericTypes<System.Int64>(2, 4, System.Int64)
+Dispose
+
+.ctor
+ShouldAdd
+ShouldAdd(2, 3, 5)
+ShouldAdd(3, 5, 8)
+ShouldSubtract
+Dispose
+
+Test 'CustomConvention.Tests.SkippedTests.OnlyRunsWhenExplicitlyInvoked' skipped: [Explicit] tests run only when they are individually selected for execution.
+Test 'CustomConvention.Tests.SkippedTests.SkippedWithReason' skipped: Skipped with reason.
+Test 'CustomConvention.Tests.SkippedTests.SkippedWithoutReason' skipped
+InnerTest
+InnerInnerTest
+8 passed, 0 failed, 3 skipped, took 0.01 seconds (Fixie 1.0.2).
+
+====== Fixie.Console.x86.exe x86.Tests.dll ======
+------ Testing Assembly x86.Tests.dll ------
+
+1 passed, 0 failed, took 0.00 seconds (Fixie 1.0.2).
+

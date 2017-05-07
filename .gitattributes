@@ -1,0 +1,15 @@
+*.txt text
+*.md text
+*.log text
+
+*.cmd text
+*.ps1 text
+
+*.sln text
+*.csproj text
+*.cs text diff=csharp
+*.config text
+*.DotSettings
+
+*.exe binary
+*.dll binary
