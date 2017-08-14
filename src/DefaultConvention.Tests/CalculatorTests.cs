@@ -2,7 +2,7 @@
 {
     using System;
     using Fixie.Integration;
-    using Should;
+    using Shouldly;
 
     class CalculatorTests : IDisposable
     {
@@ -15,14 +15,14 @@
         {
             Log.WhereAmI();
             var calculator = new Calculator();
-            calculator.Add(2, 3).ShouldEqual(5);
+            calculator.Add(2, 3).ShouldBe(5);
         }
 
         public void ShouldSubtract()
         {
             Log.WhereAmI();
             var calculator = new Calculator();
-            calculator.Subtract(5, 3).ShouldEqual(2);
+            calculator.Subtract(5, 3).ShouldBe(2);
         }
 
         public void ShouldFail()

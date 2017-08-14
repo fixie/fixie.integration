@@ -2,7 +2,7 @@
 {
     using System;
     using Fixie.Integration;
-    using Should;
+    using Shouldly;
 
     class OverloadedTests : IDisposable
     {
@@ -17,13 +17,13 @@
         public void ShouldAdd()
         {
             Log.WhereAmI();
-            calculator.Add(2, 3).ShouldEqual(5);
+            calculator.Add(2, 3).ShouldBe(5);
         }
         
         public void ShouldSubtract()
         {
             Log.WhereAmI();
-            calculator.Subtract(2, 3).ShouldEqual(-1);
+            calculator.Subtract(2, 3).ShouldBe(-1);
         }
 
         [Input(2, 3, 5)]
@@ -31,7 +31,7 @@
         public void ShouldAdd(int a, int b, int expectedSum)
         {
             Log.WhereAmI(new object[] { a, b, expectedSum });
-            calculator.Add(a, b).ShouldEqual(expectedSum);
+            calculator.Add(a, b).ShouldBe(expectedSum);
         }
         
         public void Dispose()

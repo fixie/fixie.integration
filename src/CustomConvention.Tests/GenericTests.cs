@@ -2,7 +2,7 @@
 {
     using System;
     using Fixie.Integration;
-    using Should;
+    using Shouldly;
 
     class GenericTests : IDisposable
     {
@@ -16,7 +16,7 @@
         public void ShouldInferGenericTypes<T>(T a, T b, Type expectedT)
         {
             Log.WhereAmI<T>(new object[] { a, b, expectedT });
-            typeof(T).ShouldEqual(expectedT, $"Expected T to resolve to type {expectedT}, but it resolved to type {typeof(T)} instead.");
+            typeof(T).ShouldBe(expectedT, $"Expected T to resolve to type {expectedT}, but it resolved to type {typeof(T)} instead.");
         }
 
         public void Dispose()
