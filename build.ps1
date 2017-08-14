@@ -13,7 +13,7 @@ function Clean {
 }
 
 function Restore {
-    exec { dotnet restore src --packages packages -s https://api.nuget.org/v3/index.json }
+    exec { dotnet restore src --packages packages }
 }
 
 function Build {

@@ -21,7 +21,7 @@
                 .SortCases((caseA, caseB) => String.Compare(caseA.Name, caseB.Name, StringComparison.Ordinal));
 
             CaseExecution
-                .Skip(new SkipDueToExplicitAttribute(TargetMember))
+                .Skip(new SkipDueToExplicitAttribute(IsTarget))
                 .Skip<SkipDueToClassLevelSkipAttribute>()
                 .Skip<SkipDueToMethodLevelSkipAttribute>();
 
@@ -32,41 +32,41 @@
 
     class SkipDueToExplicitAttribute : SkipBehavior
     {
-        private readonly MemberInfo targetMember;
+        private readonly Func<MethodInfo, bool> isTargetMethod;
 
-        public SkipDueToExplicitAttribute(MemberInfo targetMember)
+        public SkipDueToExplicitAttribute(Func<MethodInfo, bool> isTargetMethod)
         {
-            this.targetMember = targetMember;
+            this.isTargetMethod = isTargetMethod;
         }
 
-        public override bool SkipCase(Case @case)
+        public bool SkipCase(Case @case)
         {
             var method = @case.Method;
 
             var isMarkedExplicit = method.Has<ExplicitAttribute>();
 
-            return isMarkedExplicit && targetMember != method;
+            return isMarkedExplicit && !isTargetMethod(method);
         }
 
-        public override string GetSkipReason(Case @case)
+        public string GetSkipReason(Case @case)
             => "[Explicit] tests run only when they are individually selected for execution.";
     }
 
     class SkipDueToClassLevelSkipAttribute : SkipBehavior
     {
-        public override bool SkipCase(Case @case)
+        public bool SkipCase(Case @case)
             => @case.Method.DeclaringType.HasOrInherits<SkipAttribute>();
 
-        public override string GetSkipReason(Case @case)
+        public string GetSkipReason(Case @case)
             => @case.Method.DeclaringType.GetCustomAttribute<SkipAttribute>().Reason;
     }
 
     class SkipDueToMethodLevelSkipAttribute : SkipBehavior
     {
-        public override bool SkipCase(Case @case)
+        public bool SkipCase(Case @case)
             => @case.Method.HasOrInherits<SkipAttribute>();
 
-        public override string GetSkipReason(Case @case)
+        public string GetSkipReason(Case @case)
             => @case.Method.GetCustomAttribute<SkipAttribute>().Reason;
     }
 

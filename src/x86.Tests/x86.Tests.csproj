@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fixie" Version="1.0.2" />
+    <PackageReference Include="Fixie" Version="2.0.0-alpha-0000" />
   </ItemGroup>
 
 </Project>
