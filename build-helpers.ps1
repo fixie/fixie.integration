@@ -1,27 +1,15 @@
-﻿function run-tests($project, $configuration, $bitness=64) {
-    if ($bitness -eq 64) {
-        $fixie = find-dependency Fixie.Console.exe
-    } elseif ($bitness -eq 32) {
-        $fixie = find-dependency Fixie.Console.x86.exe
+﻿function run-tests($path, $cmd, $expected_failures) {
+    Push-Location $path
+
+    write-host $cmd.ToString().Trim() -fore GREEN
+    $global:lastexitcode = 0
+    & $cmd
+
+    Pop-Location
+
+    if ($lastexitcode -ne $expected_failures) {
+        throw "Expected $expected_failures tests to fail, but $lastexitcode tests failed."
     }
-
-    $output = "====== $([IO.Path]::GetFileName($fixie)) $project.dll ======"
-    write-host $output -ForegroundColor Green
-    $output | Out-File -FilePath actual.log -Append -Encoding utf8
-
-    & $fixie src\$project\bin\$configuration\net452\$project.dll | Tee-Object -Variable output
-    $output | Out-File -FilePath actual.log -Append -Encoding utf8
-}
-
-function find-dependency($exe_name) {
-    $exes = @(gci src\packages -rec -filter $exe_name)
-
-    if ($exes.Length -ne 1)
-    {
-        throw "Expected to find 1 $exe_name, but found $($exes.Length)."
-    }
-
-    return $exes[0].FullName
 }
 
 function copyright($startYear, $authors) {

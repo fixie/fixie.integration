@@ -13,7 +13,7 @@ function Clean {
 }
 
 function Restore {
-    exec { dotnet restore src --packages packages }
+    exec { dotnet restore src }
 }
 
 function Build {
@@ -21,17 +21,17 @@ function Build {
 }
 
 function Test {
-    [IO.File]::Delete("actual.log")
 
-    run-tests DefaultConvention.Tests $configuration
-    run-tests CustomConvention.Tests $configuration
-    run-tests x64.Tests $configuration
+    $test = { dotnet fixie --configuration $configuration --no-build }
+    $test_x86 = { dotnet fixie --configuration $configuration --no-build --x86 }
 
-    run-tests DefaultConvention.Tests $configuration 32
-    run-tests CustomConvention.Tests $configuration 32
-    run-tests x86.Tests $configuration 32
-    
-    write-host "Verify output by comparing actual.log against expected.log." -ForegroundColor Green
+    run-tests src/DefaultConvention.Tests $test 1
+    run-tests src/CustomConvention.Tests $test 0
+    run-tests src/x64.Tests $test 0
+
+    run-tests src/DefaultConvention.Tests $test_x86 1
+    run-tests src/CustomConvention.Tests $test_x86 0
+    run-tests src/x86.Tests $test_x86 0
 }
 
 run-build {
