@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fixie" Version="2.0.0-alpha-0000" />
+    <PackageReference Include="Fixie.VisualStudio.TestAdapter" Version="2.0.0-alpha-0000" />
     <DotNetCliToolReference Include="Fixie.Runner" Version="2.0.0-alpha-0000" />
   </ItemGroup>
 
