@@ -3,8 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
-    <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
