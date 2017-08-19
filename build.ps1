@@ -9,7 +9,7 @@ function License {
 }
 
 function Clean {
-    exec { dotnet clean src -c $configuration }
+    exec { dotnet clean src -c $configuration /nologo }
 }
 
 function Restore {
@@ -17,7 +17,7 @@ function Restore {
 }
 
 function Build {
-    exec { dotnet build src -c $configuration }
+    exec { dotnet build src -c $configuration /nologo }
 }
 
 function Test {

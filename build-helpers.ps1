@@ -1,7 +1,6 @@
 ﻿function run-tests($path, $cmd, $expected_failures) {
     Push-Location $path
 
-    write-host $cmd.ToString().Trim() -fore GREEN
     $global:lastexitcode = 0
     & $cmd
 
