@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fixie" Version="2.0.0-alpha-0002" />
+    <PackageReference Include="Fixie" Version="2.0.0-alpha-0003" />
     <PackageReference Include="Shouldly" Version="2.8.3" />
-    <DotNetCliToolReference Include="Fixie.Console" Version="2.0.0-alpha-0002" />
+    <DotNetCliToolReference Include="Fixie.Console" Version="2.0.0-alpha-0003" />
   </ItemGroup>
 
   <ItemGroup>
