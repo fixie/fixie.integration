@@ -17,7 +17,7 @@ function Restore {
 }
 
 function Build {
-    exec { dotnet build src -c $configuration /nologo }
+    exec { dotnet build src -c $configuration --no-restore /nologo }
 }
 
 function Test {
