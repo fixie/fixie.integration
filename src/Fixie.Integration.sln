@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fixie.Integration", "Fixie.Integration\Fixie.Integration.csproj", "{C4D6BC53-4248-472F-9544-5E98E49880CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fixie.Integration", "Fixie.Integration\Fixie.Integration.csproj", "{C4D6BC53-4248-472F-9544-5E98E49880CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultConvention.Tests", "DefaultConvention.Tests\DefaultConvention.Tests.csproj", "{BD25957F-14B9-4692-94F5-8FD47D62BA7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultConvention.Tests", "DefaultConvention.Tests\DefaultConvention.Tests.csproj", "{BD25957F-14B9-4692-94F5-8FD47D62BA7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomConvention.Tests", "CustomConvention.Tests\CustomConvention.Tests.csproj", "{C9BBFA9F-2407-4919-9DF1-991230850078}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomConvention.Tests", "CustomConvention.Tests\CustomConvention.Tests.csproj", "{C9BBFA9F-2407-4919-9DF1-991230850078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "x64.Tests", "x64.Tests\x64.Tests.csproj", "{F12DB47E-05D5-4D30-A4B4-D1D9FED3825C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "x64.Tests", "x64.Tests\x64.Tests.csproj", "{F12DB47E-05D5-4D30-A4B4-D1D9FED3825C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "x86.Tests", "x86.Tests\x86.Tests.csproj", "{A9DADF40-9B21-4FB2-AEF4-05F6534ED292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "x86.Tests", "x86.Tests\x86.Tests.csproj", "{A9DADF40-9B21-4FB2-AEF4-05F6534ED292}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Tests", "FSharp.Tests\FSharp.Tests.fsproj", "{7FAFCA2B-E4A0-4DC1-AE77-7BE91A8EC450}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +41,15 @@ Global
 		{A9DADF40-9B21-4FB2-AEF4-05F6534ED292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9DADF40-9B21-4FB2-AEF4-05F6534ED292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9DADF40-9B21-4FB2-AEF4-05F6534ED292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FAFCA2B-E4A0-4DC1-AE77-7BE91A8EC450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAFCA2B-E4A0-4DC1-AE77-7BE91A8EC450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FAFCA2B-E4A0-4DC1-AE77-7BE91A8EC450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FAFCA2B-E4A0-4DC1-AE77-7BE91A8EC450}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC5BEE05-9F32-4764-9435-4D39905590D0}
 	EndGlobalSection
 EndGlobal

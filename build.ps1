@@ -27,6 +27,7 @@ function Test {
     run-tests src/CustomConvention.Tests $test 0
     run-tests src/x64.Tests $test 0
     run-tests src/x86.Tests $test 0
+    run-tests src/FSharp.Tests $test 0
 }
 
 run-build {
