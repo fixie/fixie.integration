@@ -1,4 +1,4 @@
-﻿namespace CustomConvention.Tests
+﻿namespace Skipped.Tests
 {
     using System;
 

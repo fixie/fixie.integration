@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using Shouldly;
-
-namespace DefaultConvention.Tests
+﻿namespace DefaultConvention.Tests
 {
+    using Newtonsoft.Json;
+    using Shouldly;
+
     class DependenciesTests
     {
         public void CanLoadExpectedVersionOfDependentAssembly()
