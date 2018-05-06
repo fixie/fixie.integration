@@ -15,7 +15,7 @@ namespace DefaultConvention.Tests
             //this solution.
 
             typeof(JsonConvert).Assembly.GetName().Version.ToString()
-                .ShouldBe("10.0.0.0");
+                .ShouldBe("11.0.0.0");
 
             var sample = JsonConvert.DeserializeObject<Sample>("{Property:\"Value\"}");
             sample.Property.ShouldBe("Value");
