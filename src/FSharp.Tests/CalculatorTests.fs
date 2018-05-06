@@ -1,14 +1,12 @@
-namespace FSharp.Tests
+module FSharp.Tests.CalculatorTests
 
 open Fixie.Integration
 open Shouldly
 
-type CalculatorTests () =
+let ShouldAdd() =
+    let calculator = new Calculator()
+    calculator.Add(2, 3).ShouldBe(5)
 
-    member this.ShouldAdd() =
-        let calculator = new Calculator()
-        calculator.Add(2, 3).ShouldBe(5)
-
-    member this.ShouldSubtract() =
-        let calculator = new Calculator()
-        calculator.Subtract(5, 3).ShouldBe(2)
+let ShouldSubtract() =
+    let calculator = new Calculator()
+    calculator.Subtract(5, 3).ShouldBe(2)
