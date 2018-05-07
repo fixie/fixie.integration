@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Compile Include="CalculatorTests.fs" />
-    <Compile Include="Fixie.Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,7 +27,7 @@ function Test {
     run-tests src/Categories.Tests $test 0
     run-tests src/CustomConvention.Tests $test 0
     run-tests src/DefaultConvention.Tests $test 2
-    #run-tests src/FSharp.Tests $test 0
+    run-tests src/FSharp.Tests $test 0
     run-tests src/Inclusive.Tests $test -1
     run-tests src/IoC.Tests $test 0
     run-tests src/LowCeremony.Tests $test 0
