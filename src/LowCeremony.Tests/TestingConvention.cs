@@ -5,21 +5,18 @@
     using System.Reflection;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery, Execution
     {
         static readonly string[] LifecycleMethods = { "FixtureSetUp", "FixtureTearDown", "SetUp", "TearDown" };
 
-        public CustomConvention()
+        public TestingConvention()
         {
-            Classes
-                .Where(x => x.Name.EndsWith("Tests"));
-
             Methods
                 .Where(x => !LifecycleMethods.Contains(x.Name))
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
         }
 
-        public override void Execute(TestClass testClass)
+        public void Execute(TestClass testClass)
         {
             var instance = testClass.Construct();
 

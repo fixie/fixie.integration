@@ -6,21 +6,18 @@
     using System.Reflection;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery, Execution
     {
-        public CustomConvention()
+        public TestingConvention()
         {
             Methods
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
-
-            Classes
-                .Where(x => x.Name.EndsWith("Tests"));
 
             Parameters
                 .Add<InputAttributeParameterSource>();
         }
 
-        public override void Execute(TestClass testClass)
+        public void Execute(TestClass testClass)
         {
             var instance = testClass.Construct();
 

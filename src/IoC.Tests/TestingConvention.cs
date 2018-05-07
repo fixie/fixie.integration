@@ -3,18 +3,15 @@
     using System;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery, Execution
     {
-        public CustomConvention()
+        public TestingConvention()
         {
             Methods
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
-
-            Classes
-                .Where(x => x.Name.EndsWith("Tests"));
         }
 
-        public override void Execute(TestClass testClass)
+        public void Execute(TestClass testClass)
         {
             using (var container = InitContainerForIntegrationTests())
             {

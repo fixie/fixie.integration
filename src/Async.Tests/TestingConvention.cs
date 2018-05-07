@@ -5,19 +5,16 @@
     using System.Reflection;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery, Execution
     {
-        public CustomConvention()
+        public TestingConvention()
         {
-            Classes
-                .Where(x => x.Name.EndsWith("Tests"));
-
             Methods
                 .Where(x => x.Name != "SetUp")
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
         }
 
-        public override void Execute(TestClass testClass)
+        public void Execute(TestClass testClass)
         {
             testClass.RunCases(@case =>
             {

@@ -1,20 +1,23 @@
-﻿namespace Skipped.Tests
+﻿namespace CustomConvention.Tests
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
     using Fixie;
 
-    public class CustomConvention : Convention
+    class TestingConvention : Discovery, Execution
     {
-        public CustomConvention()
+        public TestingConvention()
         {
-            Classes
-                .Where(x => x.Name.EndsWith("Tests"));
-
             Methods
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
+
+            Parameters
+                .Add<InputAttributeParameterSource>();
         }
 
-        public override void Execute(TestClass testClass)
+        public void Execute(TestClass testClass)
         {
             var methodWasExplicitlyRequested = testClass.TargetMethod != null;
 
@@ -34,5 +37,11 @@
 
             instance.Dispose();
         }
+    }
+
+    class InputAttributeParameterSource : ParameterSource
+    {
+        public IEnumerable<object[]> GetParameters(MethodInfo method)
+            => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
     }
 }

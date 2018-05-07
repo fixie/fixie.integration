@@ -5,15 +5,12 @@
     using System.Reflection;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery
     {
-        public CustomConvention(string[] include)
+        public TestingConvention(string[] include)
         {
             var desiredCategories = include;
             var shouldRunAll = !desiredCategories.Any();
-
-            Classes
-                .Where(x => x.Name.EndsWith("Tests"));
 
             Methods
                 .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories));

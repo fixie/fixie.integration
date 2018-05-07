@@ -3,9 +3,9 @@
     using System;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery
     {
-        public CustomConvention()
+        public TestingConvention()
         {
             //In this example, the description of test classes is so inclusive that this convention
             //class itself could be mistaken for a test class. Since convention classes are

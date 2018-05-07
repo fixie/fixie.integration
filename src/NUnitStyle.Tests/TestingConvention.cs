@@ -6,9 +6,9 @@
     using System.Reflection;
     using Fixie;
 
-    public class CustomConvention : Convention
+    public class TestingConvention : Discovery, Execution
     {
-        public CustomConvention()
+        public TestingConvention()
         {
             Classes
                 .Where(x => x.Has<TestFixture>());
@@ -21,7 +21,7 @@
                 .Add<TestCaseSourceAttributeParameterSource>();
         }
 
-        public override void Execute(TestClass testClass)
+        public void Execute(TestClass testClass)
         {
             var instance = testClass.Construct();
 
