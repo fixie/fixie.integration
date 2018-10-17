@@ -60,7 +60,7 @@ function heading($title) {
     write-host $title.Replace("-", " ") -fore CYAN
 }
 
-function run-build($mainBlock) {
+function main($mainBlock) {
     try {
         &$mainBlock
         write-host

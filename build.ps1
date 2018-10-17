@@ -33,7 +33,7 @@ function Test {
     run-tests src/xUnitStyle.Tests $test 0
 }
 
-run-build {
+main {
     step { Build }
     step { Test }
 }
