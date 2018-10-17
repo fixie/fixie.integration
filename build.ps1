@@ -9,7 +9,7 @@ function License {
 }
 
 function Clean {
-    exec { dotnet clean src -c $configuration /nologo }
+    exec { dotnet clean src -c $configuration /nologo -v minimal }
 }
 
 function Restore {
