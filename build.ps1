@@ -4,13 +4,11 @@ $authors = "Patrick Lioi"
 $copyright = copyright 2017 $authors
 $configuration = 'Release'
 
-function Build {
+main {
     mit-license $copyright
     exec { dotnet clean src -c $configuration /nologo -v minimal }
     exec { dotnet build src -c $configuration /nologo }
-}
 
-function Test {
     $test = { dotnet fixie --configuration $configuration --no-build }
 
     run-tests src/Async.Tests $test 0
@@ -31,9 +29,4 @@ function Test {
     run-tests src/x64.Tests $test 0
     run-tests src/x86.Tests $test 0
     run-tests src/xUnitStyle.Tests $test 0
-}
-
-main {
-    step { Build }
-    step { Test }
 }
