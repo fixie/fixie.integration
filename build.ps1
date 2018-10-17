@@ -12,12 +12,8 @@ function Clean {
     exec { dotnet clean src -c $configuration /nologo -v minimal }
 }
 
-function Restore {
-    exec { dotnet restore src }
-}
-
 function Build {
-    exec { dotnet build src -c $configuration --no-restore /nologo }
+    exec { dotnet build src -c $configuration /nologo }
 }
 
 function Test {
@@ -46,7 +42,6 @@ function Test {
 run-build {
     step { License }
     step { Clean }
-    step { Restore }
     step { Build }
     step { Test }
 }
