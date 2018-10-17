@@ -4,15 +4,9 @@ $authors = "Patrick Lioi"
 $copyright = copyright 2017 $authors
 $configuration = 'Release'
 
-function License {
-    mit-license $copyright
-}
-
-function Clean {
-    exec { dotnet clean src -c $configuration /nologo -v minimal }
-}
-
 function Build {
+    mit-license $copyright
+    exec { dotnet clean src -c $configuration /nologo -v minimal }
     exec { dotnet build src -c $configuration /nologo }
 }
 
@@ -40,8 +34,6 @@ function Test {
 }
 
 run-build {
-    step { License }
-    step { Clean }
     step { Build }
     step { Test }
 }
