@@ -1,17 +1,4 @@
-﻿function run-tests($path, $cmd, $expected_failures) {
-    Push-Location $path
-
-    $global:lastexitcode = 0
-    & $cmd
-
-    Pop-Location
-
-    if ($lastexitcode -ne $expected_failures) {
-        throw "Expected $expected_failures tests to fail, but $lastexitcode tests failed."
-    }
-}
-
-function copyright($startYear, $authors) {
+﻿function copyright($startYear, $authors) {
     $date = Get-Date
     $currentYear = $date.Year
     $copyrightSpan = if ($currentYear -eq $startYear) { $currentYear } else { "$startYear-$currentYear" }
@@ -41,26 +28,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 "@
 }
 
-function exec($cmd) {
-    $global:lastexitcode = 0
-    & $cmd
-    if ($lastexitcode -ne 0) {
-        throw "Error executing command:$cmd"
+function exec($command, $path, $expectedReturnCode=0) {
+    if ($null -eq $path) {
+        $global:lastexitcode = 0
+        & $command
+    } else {
+        Push-Location $path
+        $global:lastexitcode = 0
+        & $command
+        Pop-Location
+    }
+
+    if ($lastexitcode -ne $expectedReturnCode) {
+        throw "Expected return code $expectedReturnCode, but was $lastexitcode."
     }
 }
 
 function step($block) {
     $command = $block.ToString().Trim()
-    heading $command
+
+    write-host
+    write-host $command -fore CYAN
+
     &$block
 }
 
-function heading($title) {
-    write-host
-    write-host $title.Replace("-", " ") -fore CYAN
-}
-
-function run-build($mainBlock) {
+function main($mainBlock) {
     try {
         &$mainBlock
         write-host
