@@ -1,0 +1,7 @@
+﻿<Project>
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <FixieVersion>2.0.3</FixieVersion>
+        <ShouldlyVersion>2.8.3</ShouldlyVersion>
+    </PropertyGroup>
+</Project>
