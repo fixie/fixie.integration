@@ -15,7 +15,7 @@ main {
     exec $test src/Categories.Tests
     exec $test src/CustomConvention.Tests
     exec $test src/DefaultConvention.Tests 2
-    exec $test src/FSharp.Tests
+    exec $test src/FSharp.Tests 2
     exec $test src/Inclusive.Tests -1
     exec $test src/IoC.Tests
     exec $test src/LowCeremony.Tests
