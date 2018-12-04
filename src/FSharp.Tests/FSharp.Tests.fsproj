@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="AsyncTests.fs" />
     <Compile Include="CalculatorTests.fs" />
   </ItemGroup>
 
