@@ -33,8 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shuffle.Tests", "Shuffle.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skipped.Tests", "Skipped.Tests\Skipped.Tests.csproj", "{68EE095F-F7E4-4707-BB09-BBA468128A1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Static.Tests", "Static.Tests\Static.Tests.csproj", "{20C40E5B-C5E7-4F01-8025-0431CB2ABACA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitStyle.Tests", "xUnitStyle.Tests\xUnitStyle.Tests.csproj", "{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inclusive.Tests", "Inclusive.Tests\Inclusive.Tests.csproj", "{889A52A0-088C-4488-BC17-0EBEA8B48A30}"
@@ -109,10 +107,6 @@ Global
 		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20C40E5B-C5E7-4F01-8025-0431CB2ABACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20C40E5B-C5E7-4F01-8025-0431CB2ABACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20C40E5B-C5E7-4F01-8025-0431CB2ABACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20C40E5B-C5E7-4F01-8025-0431CB2ABACA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}.Release|Any CPU.ActiveCfg = Release|Any CPU

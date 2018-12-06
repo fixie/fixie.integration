@@ -25,7 +25,6 @@ main {
     exec $test src/Parameterized.Tests
     exec $test src/Shuffle.Tests
     exec $test src/Skipped.Tests
-    exec $test src/Static.Tests
     exec $test src/TargetFramework.Tests
     exec $test src/x64.Tests
     exec $test src/x86.Tests

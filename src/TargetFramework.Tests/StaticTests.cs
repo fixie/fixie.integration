@@ -1,9 +1,9 @@
-﻿namespace Static.Tests
+﻿namespace TargetFramework.Tests
 {
     using Fixie.Integration;
     using Shouldly;
 
-    public static class CalculatorTests
+    public static class StaticTests
     {
         public static void ShouldAdd() => new Calculator().Add(2, 3).ShouldBe(5);
 
