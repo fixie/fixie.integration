@@ -20,7 +20,6 @@ main {
     exec $test src/IoC.Tests
     exec $test src/LowCeremony.Tests
     exec $test src/MbUnitStyle.Tests
-    exec $test src/Nested.Tests
     exec $test src/NUnitStyle.Tests
     exec $test src/Parameterized.Tests
     exec $test src/Shuffle.Tests

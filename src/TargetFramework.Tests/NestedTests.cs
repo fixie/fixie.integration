@@ -1,11 +1,11 @@
-﻿namespace Nested.Tests
+﻿namespace TargetFramework.Tests
 {
     using System;
     using System.Text;
     using Fixie.Integration;
     using Shouldly;
 
-    public class CalculatorTests
+    public class NestedTests
     {
         class AddingTests : IDisposable
         {
