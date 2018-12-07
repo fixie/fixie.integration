@@ -31,6 +31,12 @@
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
+        public void ShouldFail()
+        {
+            Log.WhereAmI();
+            throw new Exception("This test is written to fail, to demonstrate failure reporting.");
+        }
+
         public void TearDown()
         {
             Log.WhereAmI();
