@@ -4,7 +4,7 @@
     using Fixie.Integration;
     using Shouldly;
 
-    public class SkipMethodTests : IDisposable
+    class SkipMethodTests : IDisposable
     {
         readonly Calculator calculator;
 

@@ -4,7 +4,7 @@
     using Fixie.Integration;
     using Shouldly;
 
-    public class IoCTests : IDisposable
+    class IoCTests : IDisposable
     {
         readonly IDatabase database;
         readonly IThirdPartyService service;

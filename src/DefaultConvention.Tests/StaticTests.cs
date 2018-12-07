@@ -1,4 +1,4 @@
-﻿namespace CustomConvention.Tests
+﻿namespace DefaultConvention.Tests
 {
     using Fixie.Integration;
     using Shouldly;

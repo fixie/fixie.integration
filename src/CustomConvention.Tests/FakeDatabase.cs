@@ -2,7 +2,7 @@
 {
     using Fixie.Integration;
 
-    public class FakeDatabase : IDatabase
+    class FakeDatabase : IDatabase
     {
         public string Query() => nameof(FakeDatabase);
     }

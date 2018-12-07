@@ -5,7 +5,7 @@
     using Fixie.Integration;
     using Shouldly;
 
-    public class AsyncCalculatorTests : IDisposable
+    class AsyncCalculatorTests : IDisposable
     {
         Calculator calculator;
 

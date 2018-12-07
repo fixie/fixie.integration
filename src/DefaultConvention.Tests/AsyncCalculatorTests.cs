@@ -1,39 +1,39 @@
 ﻿namespace DefaultConvention.Tests
 {
     using System;
+    using System.Threading.Tasks;
     using Fixie.Integration;
     using Shouldly;
 
-    class CalculatorTests : IDisposable
+    class AsyncCalculatorTests : IDisposable
     {
-        public CalculatorTests()
+        readonly Calculator calculator;
+
+        public AsyncCalculatorTests()
         {
+            calculator = new Calculator();
             Log.WhereAmI();
         }
 
-        public void ShouldAdd()
+        public async Task ShouldAdd()
         {
+            await Awaited();
             Log.WhereAmI();
-            var calculator = new Calculator();
             calculator.Add(2, 3).ShouldBe(5);
         }
 
-        public void ShouldSubtract()
+        public async Task ShouldSubtract()
         {
+            await Awaited();
             Log.WhereAmI();
-            var calculator = new Calculator();
             calculator.Subtract(5, 3).ShouldBe(2);
-        }
-
-        public void ShouldFail()
-        {
-            Log.WhereAmI();
-            throw new Exception("This test is written to fail, to demonstrate failure reporting.");
         }
 
         public void Dispose()
         {
             Log.WhereAmI();
         }
+
+        static Task Awaited() => Task.FromResult(0);
     }
 }

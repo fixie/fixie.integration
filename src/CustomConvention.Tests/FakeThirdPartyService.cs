@@ -2,7 +2,7 @@
 {
     using Fixie.Integration;
 
-    public class FakeThirdPartyService : IThirdPartyService
+    class FakeThirdPartyService : IThirdPartyService
     {
         public string Invoke() => nameof(FakeThirdPartyService);
     }

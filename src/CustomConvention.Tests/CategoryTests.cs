@@ -3,7 +3,7 @@
     using Fixie.Integration;
     using Shouldly;
 
-    public class CategoryTests
+    class CategoryTests
     {
         [CategoryA]
         public void ShouldAdd()

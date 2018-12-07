@@ -11,7 +11,7 @@ main {
 
     $test = { dotnet fixie --configuration $configuration --no-build }
 
-    exec $test src/CustomConvention.Tests
+    exec $test src/CustomConvention.Tests 10
     exec $test src/DefaultConvention.Tests 10
     exec $test src/FSharp.Tests 2
     exec $test src/NUnitStyle.Tests

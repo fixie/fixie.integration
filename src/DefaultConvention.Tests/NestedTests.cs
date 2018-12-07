@@ -1,7 +1,6 @@
-﻿namespace CustomConvention.Tests
+﻿namespace DefaultConvention.Tests
 {
     using System;
-    using System.Text;
     using Fixie.Integration;
     using Shouldly;
 
