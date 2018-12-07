@@ -59,6 +59,7 @@
         [Skip]
         public void ShouldBeSkipped()
         {
+            Log.WhereAmI();
             throw new Exception(nameof(ShouldBeSkipped) + " was invoked explicitly.");
         }
 
