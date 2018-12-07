@@ -1,4 +1,4 @@
-﻿namespace TargetFramework.Tests
+﻿namespace CustomConvention.Tests
 {
     using System;
     using System.Text;
