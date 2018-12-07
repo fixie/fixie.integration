@@ -1,56 +1,44 @@
 ﻿namespace CustomConvention.Tests
 {
     using System;
-    using System.Text;
     using Fixie.Integration;
     using Shouldly;
 
     public class CalculatorTests : IDisposable
     {
         readonly Calculator calculator;
-        readonly StringBuilder log;
-        string test;
 
         public CalculatorTests()
         {
             calculator = new Calculator();
-            log = new StringBuilder();
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         public void SetUp()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         public void ShouldAdd()
         {
-            log.WhereAmI();
-            test = nameof(ShouldAdd);
+            Log.WhereAmI();
             calculator.Add(2, 3).ShouldBe(5);
         }
 
         public void ShouldSubtract()
         {
-            log.WhereAmI();
-            test = nameof(ShouldSubtract);
+            Log.WhereAmI();
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
         public void TearDown()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         public void Dispose()
         {
-            log.WhereAmI();
-            log.ShouldHaveLines(
-                ".ctor",
-                "SetUp",
-                test,
-                "TearDown",
-                "Dispose");
+            Log.WhereAmI();
         }
     }
 }

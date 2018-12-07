@@ -10,58 +10,44 @@
         class AddingTests : IDisposable
         {
             readonly Calculator calculator;
-            readonly StringBuilder log;
 
             public AddingTests()
             {
                 calculator = new Calculator();
-                log = new StringBuilder();
-                log.WhereAmI();
+                Log.WhereAmI();
             }
 
             public void ShouldAdd()
             {
-                log.WhereAmI();
+                Log.WhereAmI();
                 calculator.Add(2, 3).ShouldBe(5);
             }
 
             public void Dispose()
             {
-                log.WhereAmI();
-
-                log.ShouldHaveLines(
-                    ".ctor",
-                    "ShouldAdd",
-                    "Dispose");
+                Log.WhereAmI();
             }
         }
 
         class SubtractingTests : IDisposable
         {
             readonly Calculator calculator;
-            readonly StringBuilder log;
 
             public SubtractingTests()
             {
                 calculator = new Calculator();
-                log = new StringBuilder();
-                log.WhereAmI();
+                Log.WhereAmI();
             }
 
             public void ShouldSubtract()
             {
-                log.WhereAmI();
+                Log.WhereAmI();
                 calculator.Subtract(5, 3).ShouldBe(2);
             }
 
             public void Dispose()
             {
-                log.WhereAmI();
-
-                log.ShouldHaveLines(
-                    ".ctor",
-                    "ShouldSubtract",
-                    "Dispose");
+                Log.WhereAmI();
             }
         }
     }

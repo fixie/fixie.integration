@@ -18,5 +18,8 @@
 
         public static void WhereAmI<T>(object[] args, [CallerMemberName] string method = null)
             => Console.WriteLine($"{method}<{typeof(T)}>({String.Join(", ", args)})");
+
+        public static void WriteLine(string line)
+            => Console.WriteLine(line);
     }
 }

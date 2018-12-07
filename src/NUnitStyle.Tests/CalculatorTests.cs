@@ -1,7 +1,6 @@
 ﻿namespace NUnitStyle.Tests
 {
     using System;
-    using System.Text;
     using Fixie.Integration;
     using Shouldly;
 
@@ -9,45 +8,43 @@
     public class CalculatorTests : IDisposable
     {
         Calculator calculator;
-        readonly StringBuilder log;
 
         public CalculatorTests()
         {
-            log = new StringBuilder();
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator = new Calculator();
         }
 
         [SetUp]
         public void SetUp()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         [Test]
         public void ShouldAdd()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator.Add(2, 3).ShouldBe(5);
         }
 
         [Test]
         public void ShouldSubtract()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
         [Test]
         public void ShouldDivide()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator.Divide(6, 3).ShouldBe(2);
         }
 
@@ -55,42 +52,25 @@
         [ExpectedException(typeof(DivideByZeroException))]
         public void ShouldThrowWhenDividingByZero()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator.Divide(1, 0);
         }
 
         [TearDown]
         public void TearDown()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         public void Dispose()
         {
-            log.WhereAmI();
-            log.ShouldHaveLines(
-                ".ctor",
-                "TestFixtureSetUp",
-                "SetUp",
-                "ShouldAdd",
-                "TearDown",
-                "SetUp",
-                "ShouldDivide",
-                "TearDown",
-                "SetUp",
-                "ShouldSubtract",
-                "TearDown",
-                "SetUp",
-                "ShouldThrowWhenDividingByZero",
-                "TearDown",
-                "TestFixtureTearDown",
-                "Dispose");
+            Log.WhereAmI();
         }
     }
 }

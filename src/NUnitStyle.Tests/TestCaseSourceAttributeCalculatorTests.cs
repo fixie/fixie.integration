@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using Fixie.Integration;
     using Shouldly;
 
@@ -10,13 +9,11 @@
     public class TestCaseSourceAttributeCalculatorTests : IDisposable
     {
         readonly Calculator calculator;
-        readonly StringBuilder log;
 
         public TestCaseSourceAttributeCalculatorTests()
         {
             calculator = new Calculator();
-            log = new StringBuilder();
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         public static IEnumerable<object[]> FieldSource = new List<object[]>
@@ -55,28 +52,13 @@
         [TestCaseSource("PropertySource")]
         public void ShouldAddFromFieldSource(string source, int a, int b, int expectedSum)
         {
-            log.AppendLine($"{source}: ShouldAdd({a}, {b}, {expectedSum})");
+            Log.WriteLine($"{source}: ShouldAdd({a}, {b}, {expectedSum})");
             calculator.Add(a, b).ShouldBe(expectedSum);
         }
 
         public void Dispose()
         {
-            log.WhereAmI();
-            log.ShouldHaveLines(
-                ".ctor",
-                "External Field: ShouldAdd(10, 20, 30)",
-                "External Field: ShouldAdd(20, 30, 50)",
-                "External Method: ShouldAdd(30, 40, 70)",
-                "External Method: ShouldAdd(40, 50, 90)",
-                "External Property: ShouldAdd(50, 60, 110)",
-                "External Property: ShouldAdd(60, 70, 130)",
-                "Internal Field: ShouldAdd(1, 2, 3)",
-                "Internal Field: ShouldAdd(2, 3, 5)",
-                "Internal Method: ShouldAdd(3, 4, 7)",
-                "Internal Method: ShouldAdd(4, 5, 9)",
-                "Internal Property: ShouldAdd(5, 6, 11)",
-                "Internal Property: ShouldAdd(6, 7, 13)",
-                "Dispose");
+            Log.WhereAmI();
         }
     }
 
@@ -88,25 +70,16 @@
             new object[] { "External Field", 20, 30, 50 }
         };
 
-        public static IEnumerable<object[]> MethodSource()
+        public static IEnumerable<object[]> MethodSource() => new List<object[]>
         {
-            return new List<object[]>
-            {
-                new object[] { "External Method", 30, 40, 70 },
-                new object[] { "External Method", 40, 50, 90 }
-            };
-        }
+            new object[] { "External Method", 30, 40, 70 },
+            new object[] { "External Method", 40, 50, 90 }
+        };
 
-        public static IEnumerable<object[]> PropertySource
+        public static IEnumerable<object[]> PropertySource => new List<object[]>
         {
-            get
-            {
-                return new List<object[]>
-                {
-                    new object[] { "External Property", 50, 60, 110 },
-                    new object[] { "External Property", 60, 70, 130 }
-                };
-            }
-        }
+            new object[] { "External Property", 50, 60, 110 },
+            new object[] { "External Property", 60, 70, 130 }
+        };
     }
 }

@@ -8,7 +8,6 @@
     public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableFixtureData>, IDisposable
     {
         readonly Calculator calculator;
-        readonly StringBuilder log;
 
         bool executedAddTest = false;
         bool executedSubtractTest = false;
@@ -19,23 +18,22 @@
         public CalculatorTests()
         {
             calculator = new Calculator();
-            log = new StringBuilder();
-            log.WhereAmI();
+            Log.WhereAmI();
         }
 
         public void SetFixture(FixtureData data)
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             fixtureData = data;
-            log.AppendLine("   FixtureData " + fixtureData.Instance);
+            Log.WriteLine("   FixtureData " + fixtureData.Instance);
             data.Instance.ShouldBe(1);
         }
 
         public void SetFixture(DisposableFixtureData data)
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             disposableFixtureData = data;
-            log.AppendLine("   DisposableFixtureData " + disposableFixtureData.Instance);
+            Log.WriteLine("   DisposableFixtureData " + disposableFixtureData.Instance);
             data.Instance.ShouldBe(1);
         }
 
@@ -43,7 +41,7 @@
         public void ShouldAdd()
         {
             executedAddTest = true;
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator.Add(2, 3).ShouldBe(5);
         }
 
@@ -51,26 +49,15 @@
         public void ShouldSubtract()
         {
             executedSubtractTest = true;
-            log.WhereAmI();
+            Log.WhereAmI();
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
         public void Dispose()
         {
-            log.WhereAmI();
+            Log.WhereAmI();
             (executedAddTest && executedSubtractTest).ShouldBeFalse();
             (executedAddTest || executedSubtractTest).ShouldBeTrue();
-
-            log.ShouldHaveLines(
-                ".ctor",
-                "SetFixture",
-                "   FixtureData 1",
-                "SetFixture",
-                "   DisposableFixtureData 1",
-                executedAddTest
-                    ? "ShouldAdd"
-                    : "ShouldSubtract",
-                "Dispose");
         }
     }
 
