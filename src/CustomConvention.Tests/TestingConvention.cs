@@ -1,5 +1,6 @@
 ﻿namespace CustomConvention.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -9,10 +10,14 @@
     {
         static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
 
-        public TestingConvention()
+        public TestingConvention(string[] include)
         {
+            var desiredCategories = include;
+            var shouldRunAll = !desiredCategories.Any();
+
             Methods
                 .Where(x => !LifecycleMethods.Contains(x.Name))
+                .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
                 .Shuffle();
 
             Parameters
@@ -45,6 +50,12 @@
                 instance.Dispose();
             });
         }
+
+        static bool MethodHasAnyDesiredCategory(MethodInfo method, string[] desiredCategories)
+            => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
+
+        static CategoryAttribute[] Categories(MethodInfo method)
+            => method.GetCustomAttributes<CategoryAttribute>(true).ToArray();
     }
 
     class InputAttributeParameterSource : ParameterSource
@@ -52,4 +63,16 @@
         public IEnumerable<object[]> GetParameters(MethodInfo method)
             => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
     }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    abstract class CategoryAttribute : Attribute
+    {
+        public string Name => GetType().Name.Replace("Attribute", "");
+    }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    class CategoryAAttribute : CategoryAttribute { }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    class CategoryBAttribute : CategoryAttribute { }
 }
