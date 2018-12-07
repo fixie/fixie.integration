@@ -28,19 +28,11 @@
         {
             var methodWasExplicitlyRequested = testClass.TargetMethod != null;
 
-            var skipClass = testClass.Type.Has<SkipAttribute>() && !methodWasExplicitlyRequested;
-
             testClass.RunCases(@case =>
             {
-                var instance = skipClass ? null : testClass.Construct();
+                var instance = testClass.Construct();
 
-                var skipMethod = @case.Method.Has<SkipAttribute>() && !methodWasExplicitlyRequested;
-
-                if (skipClass)
-                {
-                    @case.Skip("Whole class skipped");
-                }
-                else if (!skipMethod)
+                if (methodWasExplicitlyRequested || !@case.Method.Has<SkipAttribute>())
                 {
                     testClass.Type.GetMethod("SetUp")?.Execute(instance);
                     @case.Execute(instance);
