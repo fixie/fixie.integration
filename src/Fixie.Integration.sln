@@ -25,11 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MbUnitStyle.Tests", "MbUnit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitStyle.Tests", "NUnitStyle.Tests\NUnitStyle.Tests.csproj", "{EF0334B5-3B76-43C5-8234-4B21CB899134}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parameterized.Tests", "Parameterized.Tests\Parameterized.Tests.csproj", "{AFF44552-9A7E-46B9-91CE-EDEBEA2893CA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shuffle.Tests", "Shuffle.Tests\Shuffle.Tests.csproj", "{F6E762D2-340D-4348-8165-3CDD8649B3CE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skipped.Tests", "Skipped.Tests\Skipped.Tests.csproj", "{68EE095F-F7E4-4707-BB09-BBA468128A1E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitStyle.Tests", "xUnitStyle.Tests\xUnitStyle.Tests.csproj", "{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}"
 EndProject
@@ -89,18 +85,10 @@ Global
 		{EF0334B5-3B76-43C5-8234-4B21CB899134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF0334B5-3B76-43C5-8234-4B21CB899134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF0334B5-3B76-43C5-8234-4B21CB899134}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFF44552-9A7E-46B9-91CE-EDEBEA2893CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFF44552-9A7E-46B9-91CE-EDEBEA2893CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFF44552-9A7E-46B9-91CE-EDEBEA2893CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFF44552-9A7E-46B9-91CE-EDEBEA2893CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6E762D2-340D-4348-8165-3CDD8649B3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6E762D2-340D-4348-8165-3CDD8649B3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6E762D2-340D-4348-8165-3CDD8649B3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6E762D2-340D-4348-8165-3CDD8649B3CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68EE095F-F7E4-4707-BB09-BBA468128A1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D27CB3B5-9273-40C0-B1E7-ACD1296D374B}.Release|Any CPU.ActiveCfg = Release|Any CPU
