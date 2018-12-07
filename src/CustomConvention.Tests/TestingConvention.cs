@@ -65,10 +65,26 @@
         }
     }
 
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    class InputAttribute : Attribute
+    {
+        public InputAttribute(params object[] parameters)
+        {
+            Parameters = parameters;
+        }
+
+        public object[] Parameters { get; }
+    }
+
     class InputAttributeParameterSource : ParameterSource
     {
         public IEnumerable<object[]> GetParameters(MethodInfo method)
             => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
+    }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+    class SkipAttribute : Attribute
+    {
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
@@ -82,4 +98,9 @@
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     class CategoryBAttribute : CategoryAttribute { }
+
+    class FakeThirdPartyService : IThirdPartyService
+    {
+        public string Invoke() => nameof(FakeThirdPartyService);
+    }
 }
