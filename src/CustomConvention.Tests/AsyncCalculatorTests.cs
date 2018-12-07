@@ -1,4 +1,4 @@
-﻿namespace Async.Tests
+﻿namespace CustomConvention.Tests
 {
     using System;
     using System.Text;
@@ -10,6 +10,7 @@
     {
         Calculator calculator;
         readonly StringBuilder log;
+        string test;
 
         public AsyncCalculatorTests()
         {
@@ -28,10 +29,23 @@
         {
             await Awaited();
             log.WhereAmI();
+            test = nameof(ShouldAdd);
             calculator.Add(2, 3).ShouldBe(5);
         }
 
-        static Task Awaited() => Task.FromResult(0);
+        public async Task ShouldSubtract()
+        {
+            await Awaited();
+            log.WhereAmI();
+            test = nameof(ShouldSubtract);
+            calculator.Subtract(5, 3).ShouldBe(2);
+        }
+
+        public async Task TearDown()
+        {
+            await Awaited();
+            log.WhereAmI();
+        }
 
         public void Dispose()
         {
@@ -39,8 +53,11 @@
             log.ShouldHaveLines(
                 ".ctor",
                 "SetUp",
-                "ShouldAdd",
+                test,
+                "TearDown",
                 "Dispose");
         }
+
+        static Task Awaited() => Task.FromResult(0);
     }
 }

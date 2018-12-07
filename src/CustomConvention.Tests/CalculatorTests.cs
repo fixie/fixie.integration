@@ -9,7 +9,7 @@
     {
         readonly Calculator calculator;
         readonly StringBuilder log;
-        string operation;
+        string test;
 
         public CalculatorTests()
         {
@@ -26,14 +26,14 @@
         public void ShouldAdd()
         {
             log.WhereAmI();
-            operation = "Add";
+            test = nameof(ShouldAdd);
             calculator.Add(2, 3).ShouldBe(5);
         }
 
         public void ShouldSubtract()
         {
             log.WhereAmI();
-            operation = "Subtract";
+            test = nameof(ShouldSubtract);
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
@@ -48,7 +48,7 @@
             log.ShouldHaveLines(
                 ".ctor",
                 "SetUp",
-                $"Should{operation}",
+                test,
                 "TearDown",
                 "Dispose");
         }
