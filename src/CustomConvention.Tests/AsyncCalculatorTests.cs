@@ -8,7 +8,6 @@
     public class AsyncCalculatorTests : IDisposable
     {
         Calculator calculator;
-        string test;
 
         public AsyncCalculatorTests()
         {
@@ -26,7 +25,6 @@
         {
             await Awaited();
             Log.WhereAmI();
-            test = nameof(ShouldAdd);
             calculator.Add(2, 3).ShouldBe(5);
         }
 
@@ -34,7 +32,6 @@
         {
             await Awaited();
             Log.WhereAmI();
-            test = nameof(ShouldSubtract);
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
