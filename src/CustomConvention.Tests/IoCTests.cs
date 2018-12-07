@@ -1,4 +1,4 @@
-﻿namespace IoC.Tests
+﻿namespace CustomConvention.Tests
 {
     using System;
     using System.Text;
@@ -10,6 +10,7 @@
         readonly IDatabase database;
         readonly IThirdPartyService service;
         readonly StringBuilder log;
+        string test;
 
         public IoCTests(IDatabase database, IThirdPartyService service)
         {
@@ -22,12 +23,14 @@
         public void ShouldReceiveRealDatabase()
         {
             log.WhereAmI();
+            test = nameof(ShouldReceiveRealDatabase);
             database.Query().ShouldBe("RealDatabase");
         }
 
         public void ShouldReceiveFakeThirdPartyService()
         {
             log.WhereAmI();
+            test = nameof(ShouldReceiveFakeThirdPartyService);
             service.Invoke().ShouldBe("FakeThirdPartyService");
         }
 
@@ -36,8 +39,7 @@
             log.WhereAmI();
             log.ShouldHaveLines(
                 ".ctor",
-                "ShouldReceiveFakeThirdPartyService",
-                "ShouldReceiveRealDatabase",
+                test,
                 "Dispose");
         }
     }
