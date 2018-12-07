@@ -1,13 +1,26 @@
 ﻿namespace CustomConvention.Tests
 {
     using System;
+    using System.Text;
     using Fixie.Integration;
+    using Shouldly;
 
-    class SkipMethodTests : IDisposable
+    public class SkipMethodTests : IDisposable
     {
+        readonly Calculator calculator;
+        readonly StringBuilder log;
+
         public SkipMethodTests()
         {
-            Log.WhereAmI();
+            calculator = new Calculator();
+            log = new StringBuilder();
+            log.WhereAmI();
+        }
+
+        public void ShouldAdd()
+        {
+            log.WhereAmI();
+            calculator.Add(2, 3).ShouldBe(5);
         }
 
         [Skip]
@@ -16,9 +29,20 @@
             throw new Exception(nameof(ShouldBeSkipped) + " was invoked explicitly.");
         }
 
+        public void ShouldSubtract()
+        {
+            log.WhereAmI();
+            calculator.Subtract(5, 3).ShouldBe(2);
+        }
+
         public void Dispose()
         {
-            Log.WhereAmI();
+            log.WhereAmI();
+            log.ShouldHaveLines(
+                ".ctor",
+                "ShouldAdd",
+                "ShouldSubtract",
+                "Dispose");
         }
     }
 }
