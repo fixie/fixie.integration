@@ -14,7 +14,6 @@ main {
     exec $test src/CustomConvention.Tests
     exec $test src/DefaultConvention.Tests 10
     exec $test src/FSharp.Tests 2
-    exec $test src/Inclusive.Tests -1
     exec $test src/MbUnitStyle.Tests
     exec $test src/NUnitStyle.Tests
     exec $test src/x64.Tests
