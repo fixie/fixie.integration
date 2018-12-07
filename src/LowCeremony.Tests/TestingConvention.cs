@@ -7,7 +7,7 @@
 
     public class TestingConvention : Discovery, Execution
     {
-        static readonly string[] LifecycleMethods = { "FixtureSetUp", "FixtureTearDown", "SetUp", "TearDown" };
+        static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
 
         public TestingConvention()
         {
@@ -18,9 +18,7 @@
 
         public void Execute(TestClass testClass)
         {
-            var instance = testClass.Construct();
-
-            void Execute(string method)
+            void Execute(object instance, string method)
             {
                 var query = testClass.Type
                     .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
@@ -30,16 +28,16 @@
                     q.Execute(instance);
             }
 
-            Execute("FixtureSetUp");
             testClass.RunCases(@case =>
             {
-                Execute("SetUp");
-                @case.Execute(instance);
-                Execute("TearDown");
-            });
-            Execute("FixtureTearDown");
+                var instance = testClass.Construct();
 
-            instance.Dispose();
+                Execute(instance, "SetUp");
+                @case.Execute(instance);
+                Execute(instance, "TearDown");
+
+                instance.Dispose();
+            });
         }
     }
 }

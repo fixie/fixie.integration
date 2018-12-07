@@ -7,19 +7,15 @@
 
     public class CalculatorTests : IDisposable
     {
-        Calculator calculator;
+        readonly Calculator calculator;
         readonly StringBuilder log;
+        string operation;
 
         public CalculatorTests()
         {
+            calculator = new Calculator();
             log = new StringBuilder();
             log.WhereAmI();
-        }
-
-        public void FixtureSetUp()
-        {
-            log.WhereAmI();
-            calculator = new Calculator();
         }
 
         public void SetUp()
@@ -30,21 +26,18 @@
         public void ShouldAdd()
         {
             log.WhereAmI();
+            operation = "Add";
             calculator.Add(2, 3).ShouldBe(5);
         }
 
         public void ShouldSubtract()
         {
             log.WhereAmI();
+            operation = "Subtract";
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
         public void TearDown()
-        {
-            log.WhereAmI();
-        }
-
-        public void FixtureTearDown()
         {
             log.WhereAmI();
         }
@@ -54,14 +47,9 @@
             log.WhereAmI();
             log.ShouldHaveLines(
                 ".ctor",
-                "FixtureSetUp",
                 "SetUp",
-                "ShouldAdd",
+                $"Should{operation}",
                 "TearDown",
-                "SetUp",
-                "ShouldSubtract",
-                "TearDown",
-                "FixtureTearDown",
                 "Dispose");
         }
     }
