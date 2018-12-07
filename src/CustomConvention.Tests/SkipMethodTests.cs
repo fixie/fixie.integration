@@ -9,6 +9,7 @@
     {
         readonly Calculator calculator;
         readonly StringBuilder log;
+        string test;
 
         public SkipMethodTests()
         {
@@ -20,29 +21,32 @@
         public void ShouldAdd()
         {
             log.WhereAmI();
+            test = nameof(ShouldAdd);
             calculator.Add(2, 3).ShouldBe(5);
         }
 
         [Skip]
         public void ShouldBeSkipped()
         {
-            throw new Exception(nameof(ShouldBeSkipped) + " was invoked explicitly.");
+            test = nameof(ShouldBeSkipped);
+            throw new Exception(test + " was invoked explicitly.");
         }
 
         public void ShouldSubtract()
         {
             log.WhereAmI();
+            test = nameof(ShouldSubtract);
             calculator.Subtract(5, 3).ShouldBe(2);
         }
 
         public void Dispose()
         {
             log.WhereAmI();
-            log.ShouldHaveLines(
-                ".ctor",
-                "ShouldAdd",
-                "ShouldSubtract",
-                "Dispose");
+
+            if (test == null)
+                log.ShouldHaveLines(".ctor", "Dispose");
+            else
+                log.ShouldHaveLines(".ctor", test, "Dispose");
         }
     }
 }
