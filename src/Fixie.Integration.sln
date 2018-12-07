@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Categories.Tests", "Categor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC.Tests", "IoC.Tests\IoC.Tests.csproj", "{1138B308-E461-4D1B-BF52-058495A273AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LowCeremony.Tests", "LowCeremony.Tests\LowCeremony.Tests.csproj", "{6B94D311-B05E-4305-BE58-36E0E91F8320}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MbUnitStyle.Tests", "MbUnitStyle.Tests\MbUnitStyle.Tests.csproj", "{18DA761E-8FD2-4295-9807-0E51AA9EED96}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitStyle.Tests", "NUnitStyle.Tests\NUnitStyle.Tests.csproj", "{EF0334B5-3B76-43C5-8234-4B21CB899134}"
@@ -73,10 +71,6 @@ Global
 		{1138B308-E461-4D1B-BF52-058495A273AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1138B308-E461-4D1B-BF52-058495A273AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1138B308-E461-4D1B-BF52-058495A273AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B94D311-B05E-4305-BE58-36E0E91F8320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B94D311-B05E-4305-BE58-36E0E91F8320}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B94D311-B05E-4305-BE58-36E0E91F8320}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B94D311-B05E-4305-BE58-36E0E91F8320}.Release|Any CPU.Build.0 = Release|Any CPU
 		{18DA761E-8FD2-4295-9807-0E51AA9EED96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{18DA761E-8FD2-4295-9807-0E51AA9EED96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18DA761E-8FD2-4295-9807-0E51AA9EED96}.Release|Any CPU.ActiveCfg = Release|Any CPU

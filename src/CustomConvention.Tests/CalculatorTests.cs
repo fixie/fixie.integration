@@ -1,4 +1,4 @@
-﻿namespace LowCeremony.Tests
+﻿namespace CustomConvention.Tests
 {
     using System;
     using System.Text;

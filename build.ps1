@@ -18,7 +18,6 @@ main {
     exec $test src/FSharp.Tests 2
     exec $test src/Inclusive.Tests -1
     exec $test src/IoC.Tests
-    exec $test src/LowCeremony.Tests
     exec $test src/MbUnitStyle.Tests
     exec $test src/NUnitStyle.Tests
     exec $test src/Shuffle.Tests
