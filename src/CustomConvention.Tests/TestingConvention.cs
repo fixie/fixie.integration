@@ -1,6 +1,5 @@
 ﻿namespace CustomConvention.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -14,7 +13,7 @@
         {
             Methods
                 .Where(x => !LifecycleMethods.Contains(x.Name))
-                .OrderBy(x => x.Name, StringComparer.Ordinal);
+                .Shuffle();
 
             Parameters
                 .Add<InputAttributeParameterSource>();

@@ -19,7 +19,6 @@ main {
     exec $test src/IoC.Tests
     exec $test src/MbUnitStyle.Tests
     exec $test src/NUnitStyle.Tests
-    exec $test src/Shuffle.Tests
     exec $test src/TargetFramework.Tests
     exec $test src/x64.Tests
     exec $test src/x86.Tests
