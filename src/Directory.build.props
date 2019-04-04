@@ -1,7 +1,7 @@
 ﻿<Project>
     <PropertyGroup>
         <LangVersion>latest</LangVersion>
-        <FixieVersion>2.0.3</FixieVersion>
+        <FixieVersion>2.0.4</FixieVersion>
         <ShouldlyVersion>3.0.2</ShouldlyVersion>
         <SupportedDotNetFrameworkVersions>net452;net46;net461;net462;net47;net471;net472</SupportedDotNetFrameworkVersions>
         <SupportedDotNetCoreVersions>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</SupportedDotNetCoreVersions>
