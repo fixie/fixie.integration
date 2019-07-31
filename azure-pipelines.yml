@@ -6,3 +6,8 @@ steps:
   inputs:
     script: 'build'
 - script: dotnet test src/CustomConvention.Tests --logger trx
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
