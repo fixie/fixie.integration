@@ -5,7 +5,4 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'build'
-
-- task: CmdLine@2
-  inputs:
-    script: 'dotnet test src/CustomConvention.Tests --logger=trx'
+- script: dotnet test src/CustomConvention.Tests --logger trx
