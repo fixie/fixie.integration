@@ -5,9 +5,17 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'build'
-- script: dotnet test src/CustomConvention.Tests --logger trx
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
+#- script: dotnet test src/CustomConvention.Tests --logger trx
+#- task: PublishTestResults@2
+#  condition: succeededOrFailed()
+#  inputs:
+#    testRunner: VSTest
+#    testResultsFiles: '**/*.trx'
+- task: VSTest@2
   inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*.Tests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
