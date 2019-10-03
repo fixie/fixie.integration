@@ -4,6 +4,6 @@
         <FixieVersion>2.1.1</FixieVersion>
         <ShouldlyVersion>3.0.2</ShouldlyVersion>
         <SupportedDotNetFrameworkVersions>net452;net46;net461;net462;net47;net471;net472</SupportedDotNetFrameworkVersions>
-        <SupportedDotNetCoreVersions>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</SupportedDotNetCoreVersions>
+        <SupportedDotNetCoreVersions>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0</SupportedDotNetCoreVersions>
     </PropertyGroup>
 </Project>
