@@ -47,10 +47,9 @@ function exec($command, $path, $expectedReturnCode=0) {
 function step($block) {
     $command = $block.ToString().Trim()
 
-    write-host
     write-host $command -fore CYAN
-
     &$block
+    write-host
 }
 
 function main($mainBlock) {

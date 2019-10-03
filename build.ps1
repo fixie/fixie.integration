@@ -6,6 +6,7 @@ $configuration = 'Release'
 
 main {
     mit-license $copyright
+    step { dotnet --version }
     exec { dotnet clean src -c $configuration /nologo -v minimal }
     exec { dotnet build src -c $configuration /nologo }
 
