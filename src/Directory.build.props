@@ -3,7 +3,5 @@
         <LangVersion>latest</LangVersion>
         <FixieVersion>2.2.1</FixieVersion>
         <ShouldlyVersion>3.0.2</ShouldlyVersion>
-        <SupportedDotNetFrameworkVersions>net452;net472</SupportedDotNetFrameworkVersions>
-        <SupportedDotNetCoreVersions>netcoreapp2.1;netcoreapp3.1</SupportedDotNetCoreVersions>
     </PropertyGroup>
 </Project>

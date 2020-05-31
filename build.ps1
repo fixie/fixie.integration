@@ -16,7 +16,5 @@ main {
     exec $test src/DefaultConvention.Tests 1
     exec $test src/FSharp.Tests 1
     exec $test src/NUnitStyle.Tests
-    exec $test src/x64.Tests
-    exec $test src/x86.Tests
     exec $test src/xUnitStyle.Tests
 }
