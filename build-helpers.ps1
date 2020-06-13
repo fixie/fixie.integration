@@ -28,16 +28,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 "@
 }
 
-function exec($command, $path, $expectedReturnCode=0) {
-    if ($null -eq $path) {
-        $global:lastexitcode = 0
-        & $command
-    } else {
-        Push-Location $path
-        $global:lastexitcode = 0
-        & $command
-        Pop-Location
-    }
+function exec($command, $expectedReturnCode=0) {
+    $global:lastexitcode = 0
+    & $command
 
     if ($lastexitcode -ne $expectedReturnCode) {
         throw "Expected return code $expectedReturnCode, but was $lastexitcode."
