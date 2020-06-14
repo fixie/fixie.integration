@@ -10,11 +10,8 @@ main {
     exec { dotnet clean src -c $configuration --nologo -v minimal }
     exec { dotnet build src -c $configuration --nologo }
 
-    $test = { dotnet fixie --configuration $configuration --no-build }
-
-    exec $test src/CustomConvention.Tests 1
-    exec $test src/DefaultConvention.Tests 1
-    exec $test src/FSharp.Tests 1
-    exec $test src/NUnitStyle.Tests
-    exec $test src/xUnitStyle.Tests
+    exec { dotnet fixie CustomConvention.Tests --configuration $configuration --no-build } 1
+    exec { dotnet fixie DefaultConvention.Tests --configuration $configuration --no-build } 1
+    exec { dotnet fixie FSharp.Tests --configuration $configuration --no-build } 1
+    exec { dotnet fixie *UnitStyle.Tests --configuration $configuration --no-build }
 }
