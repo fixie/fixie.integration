@@ -1,17 +1,16 @@
-﻿. .\build-helpers
+﻿$ErrorActionPreference = "Stop"
 
-$authors = "Patrick Lioi"
-$copyright = copyright 2017 $authors
-$configuration = 'Release'
-
-main {
-    mit-license $copyright
-    step { dotnet --version }
-    exec { dotnet clean src -c $configuration --nologo -v minimal }
-    exec { dotnet build src -c $configuration --nologo }
-
-    exec { dotnet fixie CustomConvention.Tests --configuration $configuration --no-build } 1
-    exec { dotnet fixie DefaultConvention.Tests --configuration $configuration --no-build } 1
-    exec { dotnet fixie FSharp.Tests --configuration $configuration --no-build } 1
-    exec { dotnet fixie *UnitStyle.Tests --configuration $configuration --no-build }
+function step($command, $expectedReturnCode=0) {
+    write-host ([Environment]::NewLine + $command.ToString().Trim()) -fore CYAN
+    & $command
+    if ($lastexitcode -ne $expectedReturnCode) {
+        throw "Expected return code $expectedReturnCode, but was $lastexitcode."
+    }
 }
+
+step { dotnet clean src -c Release --nologo -v minimal }
+step { dotnet build src -c Release --nologo }
+step { dotnet fixie CustomConvention.Tests --configuration Release --no-build } 1
+step { dotnet fixie DefaultConvention.Tests --configuration Release --no-build } 1
+step { dotnet fixie FSharp.Tests --configuration Release --no-build } 1
+step { dotnet fixie *UnitStyle.Tests --configuration Release --no-build }
