@@ -8,47 +8,52 @@
 
     public class TestingConvention : Discovery, Execution
     {
-        public TestingConvention()
-        {
-            Classes
-                .Where(x => x.Has<TestFixture>());
+        public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
+            => concreteClasses.Where(x => x.Has<TestFixture>());
 
-            Methods
+        public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
+            => publicMethods
                 .Where(x => x.Has<Test>())
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
-
-            Parameters
-                .Add<TestCaseSourceAttributeParameterSource>();
-        }
 
         public void Execute(TestClass testClass)
         {
             var instance = testClass.Construct();
 
-            void Execute<TAttribute>() where TAttribute : Attribute
+            Execute<TestFixtureSetUp>(instance);
+            foreach (var test in testClass.Tests)
             {
-                var query = testClass.Type
-                    .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
-                    .Where(x => x.Has<TAttribute>());
-
-                foreach (var q in query)
-                    q.Execute(instance);
-            }
-
-            Execute<TestFixtureSetUp>();
-            testClass.RunCases(@case =>
-            {
-                Execute<SetUp>();
-
-                @case.Execute(instance);
-
-                HandleExpectedExceptions(@case);
-
-                Execute<TearDown>();
-            });
-            Execute<TestFixtureTearDown>();
+                if (test.HasParameters)
+                {
+                    foreach (var parameters in TestCaseSource.GetParameters(test.Method))
+                        RunTestCaseLifecycle(instance, test, parameters);
+                }
+                else
+                {
+                    RunTestCaseLifecycle(instance, test);
+                }
+            };
+            Execute<TestFixtureTearDown>(instance);
 
             instance.Dispose();
+        }
+
+        static void RunTestCaseLifecycle(object instance, TestMethod test, params object[] parameters)
+        {
+            Execute<SetUp>(instance);
+            test.Run(parameters, instance, HandleExpectedExceptions);
+            Execute<TearDown>(instance);
+        }
+
+        static void Execute<TAttribute>(object instance) where TAttribute : Attribute
+        {
+            var query = instance
+                .GetType()
+                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
+                .Where(x => x.Has<TAttribute>());
+
+            foreach (var q in query)
+                q.Execute(instance);
         }
 
         static void HandleExpectedExceptions(Case @case)
@@ -88,9 +93,9 @@
         }
     }
 
-    class TestCaseSourceAttributeParameterSource : ParameterSource
+    class TestCaseSource
     {
-        public IEnumerable<object[]> GetParameters(MethodInfo method)
+        public static IEnumerable<object[]> GetParameters(MethodInfo method)
         {
             var testInvocations = new List<object[]>();
 

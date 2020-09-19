@@ -11,39 +11,42 @@
     {
         static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
         readonly IoCContainer ioc = InitContainerForIntegrationTests();
+        readonly bool shouldRunAll;
+        readonly string[] desiredCategories;
 
-        public TestingConvention(string[] include)
+        public TestingConvention(string[] customArguments)
         {
-            var desiredCategories = include;
-            var shouldRunAll = !desiredCategories.Any();
+            desiredCategories = customArguments;
+            shouldRunAll = !desiredCategories.Any();
+        }
 
-            Methods
+        public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
+            => publicMethods
                 .Where(x => !LifecycleMethods.Contains(x.Name))
                 .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
                 .Shuffle();
-
-            Parameters
-                .Add<InputAttributeParameterSource>();
-        }
 
         public void Execute(TestClass testClass)
         {
             var methodWasExplicitlyRequested = testClass.TargetMethod != null;
 
-            testClass.RunCases(@case =>
+            foreach (var test in testClass.Tests)
             {
                 var instance = testClass.Type.IsStatic() ? null : ioc.Construct(testClass.Type);
 
-                if (methodWasExplicitlyRequested || !@case.Method.Has<SkipAttribute>())
+                if (methodWasExplicitlyRequested || !test.Method.Has<SkipAttribute>())
                 {
                     testClass.Type.GetMethod("SetUp")?.Execute(instance);
-                    @case.Execute(instance);
+                    test.RunCases(UsingInputAttributes, instance);
                     testClass.Type.GetMethod("TearDown")?.Execute(instance);
                 }
 
                 instance.Dispose();
-            });
+            }
         }
+
+        static IEnumerable<object[]> UsingInputAttributes(MethodInfo method)
+            => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
 
         static bool MethodHasAnyDesiredCategory(MethodInfo method, string[] desiredCategories)
             => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
@@ -74,12 +77,6 @@
         }
 
         public object[] Parameters { get; }
-    }
-
-    class InputAttributeParameterSource : ParameterSource
-    {
-        public IEnumerable<object[]> GetParameters(MethodInfo method)
-            => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]

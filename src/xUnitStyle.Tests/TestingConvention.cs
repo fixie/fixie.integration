@@ -8,31 +8,30 @@
     
     public class TestingConvention : Discovery, Execution
     {
-        public TestingConvention()
-        {
-            Classes
+        public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
+            => concreteClasses
                 .Where(HasAnyFactMethods);
 
-            Methods
+        public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
+            => publicMethods
                 .Where(x => x.Has<FactAttribute>())
                 .Shuffle();
-        }
 
         public void Execute(TestClass testClass)
         {
             var fixtures = PrepareFixtureData(testClass.Type);
 
-            testClass.RunCases(@case =>
+            foreach (var test in testClass.Tests)
             {
                 var instance = testClass.Construct();
 
                 foreach (var injectionMethod in fixtures.Keys)
                     injectionMethod.Invoke(instance, new[] { fixtures[injectionMethod] });
 
-                @case.Execute(instance);
+                test.Run(instance);
 
                 instance.Dispose();
-            });
+            };
 
             foreach (var fixtureInstance in fixtures.Values)
                 fixtureInstance.Dispose();

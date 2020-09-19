@@ -16,6 +16,18 @@
             Log.WhereAmI();
         }
 
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            Log.WhereAmI();
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            Log.WhereAmI();
+        }
+
         public static IEnumerable<object[]> FieldSource = new List<object[]>
         {
             new object[] { "Internal Field", 1, 2, 3 },
@@ -54,6 +66,18 @@
         {
             Log.WriteLine($"{source}: ShouldAdd({a}, {b}, {expectedSum})");
             calculator.Add(a, b).ShouldBe(expectedSum);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Log.WhereAmI();
+        }
+
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            Log.WhereAmI();
         }
 
         public void Dispose()

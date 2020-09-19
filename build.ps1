@@ -8,9 +8,10 @@ function step($command, $expectedReturnCode=0) {
     }
 }
 
+step { dotnet tool restore }
 step { dotnet clean src -c Release --nologo -v minimal }
 step { dotnet build src -c Release --nologo }
-step { dotnet fixie CustomConvention.Tests --configuration Release --no-build } 1
-step { dotnet fixie DefaultConvention.Tests --configuration Release --no-build } 1
-step { dotnet fixie FSharp.Tests --configuration Release --no-build } 1
-step { dotnet fixie *UnitStyle.Tests --configuration Release --no-build }
+step { dotnet fixie CustomConvention.Tests -c Release --no-build } 1
+step { dotnet fixie DefaultConvention.Tests -c Release --no-build } 1
+step { dotnet fixie FSharp.Tests -c Release --no-build } 1
+step { dotnet fixie *UnitStyle.Tests -c Release --no-build }
