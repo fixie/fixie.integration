@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Fixie;
     using Fixie.Integration;
+    using FixiMethodInfoExtensions = Fixie.Integration.MethodInfoExtensions;
 
     class TestingConvention : Discovery, Execution, IDisposable
     {
@@ -26,9 +28,9 @@
                 .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
                 .Shuffle();
 
-        public void Execute(TestClass testClass)
+        public async Task ExecuteAsync(TestClass testClass)
         {
-            var methodWasExplicitlyRequested = testClass.TargetMethod != null;
+            var methodWasExplicitlyRequested = testClass.Tests != null;
 
             foreach (var test in testClass.Tests)
             {
@@ -36,12 +38,19 @@
 
                 if (methodWasExplicitlyRequested || !test.Method.Has<SkipAttribute>())
                 {
-                    testClass.Type.GetMethod("SetUp")?.Execute(instance);
-                    test.RunCases(UsingInputAttributes, instance);
-                    testClass.Type.GetMethod("TearDown")?.Execute(instance);
+                    MethodInfo setUp = testClass.Type.GetMethod("SetUp");
+                    MethodInfo tearDown = testClass.Type.GetMethod("TearDown");
+                    
+                    if (setUp != null) 
+                        FixiMethodInfoExtensions.Execute(setUp, instance, setUp.GetParameters());
+                    await test.RunCasesAsync(UsingInputAttributes, instance);
+                    if (tearDown != null)
+                        FixiMethodInfoExtensions.Execute(tearDown, instance, tearDown.GetParameters());
                 }
 
-                instance.Dispose();
+                MethodInfo dispose = instance.GetType().GetMethod("Dispose");
+                if (dispose != null)
+                    FixiMethodInfoExtensions.Execute(dispose, instance, dispose.GetParameters());
             }
         }
 
