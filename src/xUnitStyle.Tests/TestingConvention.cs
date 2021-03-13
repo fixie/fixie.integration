@@ -4,8 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
+    using FixiMethodInfoExtensions = Fixie.Integration.MethodInfoExtensions;
     using Fixie;
-    
+    using Shouldly;
+
     public class TestingConvention : Discovery, Execution
     {
         public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
@@ -17,7 +20,7 @@
                 .Where(x => x.Has<FactAttribute>())
                 .Shuffle();
 
-        public void Execute(TestClass testClass)
+        public async Task ExecuteAsync(TestClass testClass)
         {
             var fixtures = PrepareFixtureData(testClass.Type);
 
@@ -28,13 +31,11 @@
                 foreach (var injectionMethod in fixtures.Keys)
                     injectionMethod.Invoke(instance, new[] { fixtures[injectionMethod] });
 
-                test.Run(instance);
+                await test.RunAsync(instance);
 
-                instance.Dispose();
+                MethodInfo dispose =  instance.GetType().GetMethod("Dispose");
+                FixiMethodInfoExtensions.Execute(dispose, instance, dispose.GetParameters());
             };
-
-            foreach (var fixtureInstance in fixtures.Values)
-                fixtureInstance.Dispose();
         }
 
         static Dictionary<MethodInfo, object> PrepareFixtureData(Type testClass)

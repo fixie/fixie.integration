@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
+    using FixiMethodInfoExtensions  = Fixie.Integration.MethodInfoExtensions;
     using Fixie;
 
     public class TestingConvention : Discovery, Execution
@@ -16,7 +18,7 @@
                 .Where(x => x.Has<Test>())
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
 
-        public void Execute(TestClass testClass)
+        public async Task ExecuteAsync(TestClass testClass)
         {
             var instance = testClass.Construct();
 
@@ -35,13 +37,14 @@
             };
             Execute<TestFixtureTearDown>(instance);
 
-            instance.Dispose();
+            MethodInfo dispose = instance.GetType().GetMethod("Dispose");
+            FixiMethodInfoExtensions.Execute(dispose, instance, dispose.GetParameters());
         }
 
         static void RunTestCaseLifecycle(object instance, TestMethod test, params object[] parameters)
         {
             Execute<SetUp>(instance);
-            test.Run(parameters, instance, HandleExpectedExceptions);
+            test.RunAsync(parameters, instance, HandleExpectedExceptions);
             Execute<TearDown>(instance);
         }
 
@@ -53,7 +56,7 @@
                 .Where(x => x.Has<TAttribute>());
 
             foreach (var q in query)
-                q.Execute(instance);
+                FixiMethodInfoExtensions.Execute(q, instance, q.GetParameters());
         }
 
         static void HandleExpectedExceptions(Case @case)
