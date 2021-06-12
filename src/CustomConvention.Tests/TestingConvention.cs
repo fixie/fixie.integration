@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Fixie;
     using Fixie.Integration;
 
-    class TestingConvention : Discovery, Execution, IDisposable
+    class TestingConvention : Discovery, Execution
     {
         static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
-        readonly IoCContainer ioc = InitContainerForIntegrationTests();
         readonly bool shouldRunAll;
         readonly string[] desiredCategories;
 
@@ -20,33 +20,65 @@
             shouldRunAll = !desiredCategories.Any();
         }
 
+        public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
+            => concreteClasses;
+
         public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
             => publicMethods
                 .Where(x => !LifecycleMethods.Contains(x.Name))
                 .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
                 .Shuffle();
 
-        public void Execute(TestClass testClass)
+        public async Task RunAsync(TestAssembly testAssembly)
         {
-            var methodWasExplicitlyRequested = testClass.TargetMethod != null;
+            var executeExplicitSkip = SingleTestWasRequested(testAssembly);
 
-            foreach (var test in testClass.Tests)
+            foreach (var testClass in testAssembly.TestClasses)
             {
-                var instance = testClass.Type.IsStatic() ? null : ioc.Construct(testClass.Type);
-
-                if (methodWasExplicitlyRequested || !test.Method.Has<SkipAttribute>())
+                foreach (var test in testClass.Tests)
                 {
-                    testClass.Type.GetMethod("SetUp")?.Execute(instance);
-                    test.RunCases(UsingInputAttributes, instance);
-                    testClass.Type.GetMethod("TearDown")?.Execute(instance);
-                }
+                    if (test.Method.Has<SkipAttribute>() && !executeExplicitSkip)
+                        continue;
 
-                instance.Dispose();
+                    using var ioc = InitContainerForIntegrationTests();
+
+                    var instance = ioc.Construct(testClass.Type);
+
+                    await TryLifecycleMethod(testClass, instance, "SetUp");
+
+                    if (test.HasParameters)
+                    {
+                        foreach (var parameters in UsingInputAttributes(test))
+                            await test.RunAsync(instance, parameters);
+                    }
+                    else
+                    {
+                        await test.RunAsync(instance);
+                    }
+
+                    await TryLifecycleMethod(testClass, instance, "TearDown");
+                }
             }
         }
 
-        static IEnumerable<object[]> UsingInputAttributes(MethodInfo method)
-            => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
+        static bool SingleTestWasRequested(TestAssembly testAssembly)
+        {
+            var testClasses = testAssembly.TestClasses;
+            
+            return testClasses.Count == 1 &&
+                   testClasses.Single().Tests.Count == 1;
+        }
+
+        static async Task TryLifecycleMethod(TestClass testClass, object instance, string name)
+        {
+            var method = testClass.Type.GetMethod(name);
+            
+            if (method != null)
+                await method.CallAsync(instance);
+        }
+
+        static IEnumerable<object[]> UsingInputAttributes(Test test)
+            => test.GetAll<InputAttribute>().Select(input => input.Parameters);
 
         static bool MethodHasAnyDesiredCategory(MethodInfo method, string[] desiredCategories)
             => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
@@ -60,11 +92,6 @@
             container.Add(typeof(IDatabase), typeof(RealDatabase));
             container.Add(typeof(IThirdPartyService), typeof(FakeThirdPartyService));
             return container;
-        }
-
-        public void Dispose()
-        {
-            ioc.Dispose();
         }
     }
 
