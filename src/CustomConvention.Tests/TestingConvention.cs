@@ -12,16 +12,16 @@
     {
         static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
         readonly bool shouldRunAll;
-        readonly string[] desiredCategories;
+        readonly IReadOnlyList<string> desiredCategories;
 
-        public TestingConvention(string[] customArguments)
+        public TestingConvention(TestContext testContext)
         {
-            desiredCategories = customArguments;
+            desiredCategories = testContext.CustomArguments;
             shouldRunAll = !desiredCategories.Any();
         }
 
         public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
-            => concreteClasses;
+            => concreteClasses.Where(x => x.Name.EndsWith("Tests"));
 
         public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
             => publicMethods
@@ -80,7 +80,7 @@
         static IEnumerable<object[]> UsingInputAttributes(Test test)
             => test.GetAll<InputAttribute>().Select(input => input.Parameters);
 
-        static bool MethodHasAnyDesiredCategory(MethodInfo method, string[] desiredCategories)
+        static bool MethodHasAnyDesiredCategory(MethodInfo method, IReadOnlyList<string> desiredCategories)
             => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
 
         static CategoryAttribute[] Categories(MethodInfo method)
