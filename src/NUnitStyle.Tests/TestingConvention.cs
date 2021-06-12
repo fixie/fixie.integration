@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Fixie;
+    using Fixie.Integration;
 
     public class TestingConvention : Discovery, Execution
     {
@@ -16,97 +18,113 @@
                 .Where(x => x.Has<TestAttribute>())
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
 
-        public void Execute(TestClass testClass)
+        public async Task RunAsync(TestAssembly testAssembly)
         {
-            var instance = testClass.Construct();
-
-            Execute<TestFixtureSetUpAttribute>(instance);
-            foreach (var test in testClass.Tests)
+            foreach (var testClass in testAssembly.TestClasses)
             {
-                if (test.HasParameters)
+                var instance = testClass.Construct();
+
+                await CallAsync<TestFixtureSetUpAttribute>(instance);
+
+                foreach (var test in testClass.Tests)
                 {
-                    foreach (var parameters in TestCaseSource.GetParameters(test.Method))
-                        RunTestCaseLifecycle(instance, test, parameters);
+                    if (test.HasParameters)
+                    {
+                        foreach (var parameters in GetParameters(test))
+                            await RunTestCaseLifecycleAsync(instance, test, parameters);
+                    }
+                    else
+                    {
+                        await RunTestCaseLifecycleAsync(instance, test);
+                    }
                 }
-                else
-                {
-                    RunTestCaseLifecycle(instance, test);
-                }
-            };
-            Execute<TestFixtureTearDownAttribute>(instance);
 
-            instance.Dispose();
+                await CallAsync<TestFixtureTearDownAttribute>(instance);
+
+                await instance.DisposeWhenApplicableAsync();
+            }
         }
 
-        static void RunTestCaseLifecycle(object instance, TestMethod test, params object[] parameters)
+        static async Task RunTestCaseLifecycleAsync(object instance, Test test, params object[] parameters)
         {
-            Execute<SetUpAttribute>(instance);
-            test.Run(parameters, instance, HandleExpectedExceptions);
-            Execute<TearDownAttribute>(instance);
-        }
-
-        static void Execute<TAttribute>(object instance) where TAttribute : Attribute
-        {
-            var query = instance
-                .GetType()
-                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
-                .Where(x => x.Has<TAttribute>());
-
-            foreach (var q in query)
-                q.Execute(instance);
-        }
-
-        static void HandleExpectedExceptions(Case @case)
-        {
-            var attribute = @case.Method.GetCustomAttributes<ExpectedExceptionAttribute>(false).SingleOrDefault();
-
-            if (attribute == null)
-                return;
-
-            var exception = @case.Exception;
+            await CallAsync<SetUpAttribute>(instance);
 
             try
             {
-                if (exception == null)
-                    throw new Exception("Expected exception of type " + attribute.ExpectedException + ".");
+                await test.Method.CallAsync(instance, parameters);
 
-                if (!attribute.ExpectedException.IsAssignableFrom(exception.GetType()))
+                if (test.Has<ExpectedExceptionAttribute>(out var attribute))
                 {
-                    throw new Exception(
-                        "Expected exception of type " + attribute.ExpectedException + " but an exception of type " +
-                        exception.GetType() + " was thrown.", exception);
+                    try
+                    {
+                        throw new Exception("Expected exception of type " + attribute.ExpectedException + ".");
+                    }
+                    catch (Exception failureException)
+                    {
+                        await test.FailAsync(parameters, failureException);
+                    }
                 }
-
-                if (attribute.ExpectedMessage != null && exception.Message != attribute.ExpectedMessage)
+                else
                 {
-                    throw new Exception(
-                        "Expected exception message '" + attribute.ExpectedMessage + "'" + " but was '" + exception.Message + "'.",
-                        exception);
+                    await test.PassAsync(parameters);
                 }
-
-                @case.Pass();
             }
-            catch (Exception failureException)
+            catch (Exception testMethodException)
             {
-                @case.Fail(failureException);
-            }
-        }
-    }
+                if (test.Has<ExpectedExceptionAttribute>(out var attribute))
+                {
+                    try
+                    {
+                        if (!attribute.ExpectedException.IsInstanceOfType(testMethodException))
+                        {
+                            throw new Exception(
+                                "Expected exception of type " + attribute.ExpectedException + " but an exception of type " +
+                                testMethodException.GetType() + " was thrown.", testMethodException);
+                        }
 
-    class TestCaseSource
-    {
-        public static IEnumerable<object[]> GetParameters(MethodInfo method)
+                        if (attribute.ExpectedMessage != null && testMethodException.Message != attribute.ExpectedMessage)
+                        {
+                            throw new Exception(
+                                "Expected exception message '" + attribute.ExpectedMessage + "'" + " but was '" + testMethodException.Message + "'.",
+                                testMethodException);
+                        }
+
+                        await test.PassAsync(parameters);
+                    }
+                    catch (Exception failureException)
+                    {
+                        await test.FailAsync(parameters, failureException);
+                    }
+                }
+                else
+                {
+                    await test.FailAsync(parameters, testMethodException);
+                }
+            }
+
+            await CallAsync<TearDownAttribute>(instance);
+        }
+
+        static async Task CallAsync<TAttribute>(object instance) where TAttribute : Attribute
+        {
+            var query = instance.GetType().GetMethods().Where(x => x.Has<TAttribute>());
+
+            foreach (var q in query)
+                await q.CallAsync(instance);
+        }
+
+        static IEnumerable<object[]> GetParameters(Test test)
         {
             var testInvocations = new List<object[]>();
 
-            var testCaseSourceAttributes = method.GetCustomAttributes<TestCaseSourceAttribute>(true).ToList();
+            var testCaseSourceAttributes = test.GetAll<TestCaseSourceAttribute>();
 
             foreach (var attribute in testCaseSourceAttributes)
             {
-                var sourceType = attribute.SourceType ?? method.DeclaringType;
+                var sourceType = attribute.SourceType ?? test.Method.DeclaringType;
 
                 if (sourceType == null)
-                    throw new Exception("Could not find source type for method " + method.Name);
+                    throw new Exception("Could not find source type for method " + test.Method.Name);
 
                 var members = sourceType.GetMember(attribute.SourceName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
 
