@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Fixie;
-    
+    using Fixie.Integration;
+
     public class TestingConvention : Discovery, Execution
     {
         public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
@@ -17,24 +19,27 @@
                 .Where(x => x.Has<FactAttribute>())
                 .Shuffle();
 
-        public void Execute(TestClass testClass)
+        public async Task RunAsync(TestAssembly testAssembly)
         {
-            var fixtures = PrepareFixtureData(testClass.Type);
-
-            foreach (var test in testClass.Tests)
+            foreach (var testClass in testAssembly.TestClasses)
             {
-                var instance = testClass.Construct();
+                var fixtures = PrepareFixtureData(testClass.Type);
 
-                foreach (var injectionMethod in fixtures.Keys)
-                    injectionMethod.Invoke(instance, new[] { fixtures[injectionMethod] });
+                foreach (var test in testClass.Tests)
+                {
+                    var instance = testClass.Construct();
 
-                test.Run(instance);
+                    foreach (var injectionMethod in fixtures.Keys)
+                        injectionMethod.Invoke(instance, new[] { fixtures[injectionMethod] });
 
-                instance.Dispose();
-            };
+                    await test.RunAsync(instance);
 
-            foreach (var fixtureInstance in fixtures.Values)
-                fixtureInstance.Dispose();
+                    await instance.DisposeWhenApplicableAsync();
+                }
+
+                foreach (var fixtureInstance in fixtures.Values)
+                    await fixtureInstance.DisposeWhenApplicableAsync();
+            }
         }
 
         static Dictionary<MethodInfo, object> PrepareFixtureData(Type testClass)
