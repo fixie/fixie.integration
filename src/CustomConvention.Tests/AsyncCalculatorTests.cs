@@ -1,11 +1,10 @@
 ﻿namespace CustomConvention.Tests
 {
-    using System;
     using System.Threading.Tasks;
     using Fixie.Integration;
     using Shouldly;
 
-    class AsyncCalculatorTests : IDisposable
+    class AsyncCalculatorTests
     {
         Calculator calculator;
 
@@ -38,11 +37,6 @@
         public async Task TearDown()
         {
             await Awaited();
-            Log.WhereAmI();
-        }
-
-        public void Dispose()
-        {
             Log.WhereAmI();
         }
 

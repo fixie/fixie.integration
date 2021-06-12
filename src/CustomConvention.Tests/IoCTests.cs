@@ -1,10 +1,9 @@
 ﻿namespace CustomConvention.Tests
 {
-    using System;
     using Fixie.Integration;
     using Shouldly;
 
-    class IoCTests : IDisposable
+    class IoCTests
     {
         readonly IDatabase database;
         readonly IThirdPartyService service;
@@ -26,11 +25,6 @@
         {
             Log.WhereAmI();
             service.Invoke().ShouldBe("FakeThirdPartyService");
-        }
-
-        public void Dispose()
-        {
-            Log.WhereAmI();
         }
     }
 }

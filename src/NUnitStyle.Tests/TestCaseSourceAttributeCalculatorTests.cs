@@ -1,12 +1,11 @@
 ﻿namespace NUnitStyle.Tests
 {
-    using System;
     using System.Collections.Generic;
     using Fixie.Integration;
     using Shouldly;
 
     [TestFixture]
-    public class TestCaseSourceAttributeCalculatorTests : IDisposable
+    public class TestCaseSourceAttributeCalculatorTests
     {
         readonly Calculator calculator;
 
@@ -76,11 +75,6 @@
 
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
-        {
-            Log.WhereAmI();
-        }
-
-        public void Dispose()
         {
             Log.WhereAmI();
         }

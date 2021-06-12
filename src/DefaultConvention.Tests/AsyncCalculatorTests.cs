@@ -1,11 +1,10 @@
 ﻿namespace DefaultConvention.Tests
 {
-    using System;
     using System.Threading.Tasks;
     using Fixie.Integration;
     using Shouldly;
 
-    class AsyncCalculatorTests : IDisposable
+    class AsyncCalculatorTests
     {
         readonly Calculator calculator;
 
@@ -27,11 +26,6 @@
             await Awaited();
             Log.WhereAmI();
             calculator.Subtract(5, 3).ShouldBe(2);
-        }
-
-        public void Dispose()
-        {
-            Log.WhereAmI();
         }
 
         static Task Awaited() => Task.FromResult(0);

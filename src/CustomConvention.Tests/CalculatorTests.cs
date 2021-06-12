@@ -4,7 +4,7 @@
     using Fixie.Integration;
     using Shouldly;
 
-    class CalculatorTests : IDisposable
+    class CalculatorTests
     {
         Calculator calculator;
 
@@ -64,11 +64,6 @@
         }
 
         public void TearDown()
-        {
-            Log.WhereAmI();
-        }
-
-        public void Dispose()
         {
             Log.WhereAmI();
         }
