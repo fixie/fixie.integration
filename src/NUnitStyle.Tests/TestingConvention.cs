@@ -9,18 +9,18 @@
     public class TestingConvention : Discovery, Execution
     {
         public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
-            => concreteClasses.Where(x => x.Has<TestFixture>());
+            => concreteClasses.Where(x => x.Has<TestFixtureAttribute>());
 
         public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
             => publicMethods
-                .Where(x => x.Has<Test>())
+                .Where(x => x.Has<TestAttribute>())
                 .OrderBy(x => x.Name, StringComparer.Ordinal);
 
         public void Execute(TestClass testClass)
         {
             var instance = testClass.Construct();
 
-            Execute<TestFixtureSetUp>(instance);
+            Execute<TestFixtureSetUpAttribute>(instance);
             foreach (var test in testClass.Tests)
             {
                 if (test.HasParameters)
@@ -33,16 +33,16 @@
                     RunTestCaseLifecycle(instance, test);
                 }
             };
-            Execute<TestFixtureTearDown>(instance);
+            Execute<TestFixtureTearDownAttribute>(instance);
 
             instance.Dispose();
         }
 
         static void RunTestCaseLifecycle(object instance, TestMethod test, params object[] parameters)
         {
-            Execute<SetUp>(instance);
+            Execute<SetUpAttribute>(instance);
             test.Run(parameters, instance, HandleExpectedExceptions);
-            Execute<TearDown>(instance);
+            Execute<TearDownAttribute>(instance);
         }
 
         static void Execute<TAttribute>(object instance) where TAttribute : Attribute
