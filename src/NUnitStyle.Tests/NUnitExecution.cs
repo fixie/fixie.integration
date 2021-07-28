@@ -8,50 +8,42 @@
     using Fixie;
     using Fixie.Integration;
 
-    public class TestingConvention : Discovery, Execution
+    public class NUnitExecution : IExecution
     {
-        public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
-            => concreteClasses.Where(x => x.Has<TestFixtureAttribute>());
-
-        public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
-            => publicMethods
-                .Where(x => x.Has<TestAttribute>())
-                .OrderBy(x => x.Name, StringComparer.Ordinal);
-
-        public async Task RunAsync(TestAssembly testAssembly)
+        public async Task Run(TestSuite testSuite)
         {
-            foreach (var testClass in testAssembly.TestClasses)
+            foreach (var testClass in testSuite.TestClasses)
             {
                 var instance = testClass.Construct();
 
-                await CallAsync<TestFixtureSetUpAttribute>(instance);
+                await Call<TestFixtureSetUpAttribute>(instance);
 
                 foreach (var test in testClass.Tests)
                 {
                     if (test.HasParameters)
                     {
                         foreach (var parameters in GetParameters(test))
-                            await RunTestCaseLifecycleAsync(instance, test, parameters);
+                            await RunTestCaseLifecycle(instance, test, parameters);
                     }
                     else
                     {
-                        await RunTestCaseLifecycleAsync(instance, test);
+                        await RunTestCaseLifecycle(instance, test);
                     }
                 }
 
-                await CallAsync<TestFixtureTearDownAttribute>(instance);
+                await Call<TestFixtureTearDownAttribute>(instance);
 
-                await instance.DisposeWhenApplicableAsync();
+                await instance.DisposeWhenApplicable();
             }
         }
 
-        static async Task RunTestCaseLifecycleAsync(object instance, Test test, params object[] parameters)
+        static async Task RunTestCaseLifecycle(object instance, Test test, params object[] parameters)
         {
-            await CallAsync<SetUpAttribute>(instance);
+            await Call<SetUpAttribute>(instance);
 
             try
             {
-                await test.Method.CallAsync(instance, parameters);
+                await test.Method.Call(instance, parameters);
 
                 if (test.Has<ExpectedExceptionAttribute>(out var attribute))
                 {
@@ -61,12 +53,12 @@
                     }
                     catch (Exception failureException)
                     {
-                        await test.FailAsync(parameters, failureException);
+                        await test.Fail(parameters, failureException);
                     }
                 }
                 else
                 {
-                    await test.PassAsync(parameters);
+                    await test.Pass(parameters);
                 }
             }
             catch (Exception testMethodException)
@@ -89,28 +81,28 @@
                                 testMethodException);
                         }
 
-                        await test.PassAsync(parameters);
+                        await test.Pass(parameters);
                     }
                     catch (Exception failureException)
                     {
-                        await test.FailAsync(parameters, failureException);
+                        await test.Fail(parameters, failureException);
                     }
                 }
                 else
                 {
-                    await test.FailAsync(parameters, testMethodException);
+                    await test.Fail(parameters, testMethodException);
                 }
             }
 
-            await CallAsync<TearDownAttribute>(instance);
+            await Call<TearDownAttribute>(instance);
         }
 
-        static async Task CallAsync<TAttribute>(object instance) where TAttribute : Attribute
+        static async Task Call<TAttribute>(object instance) where TAttribute : Attribute
         {
-            var query = instance.GetType().GetMethods().Where(x => x.Has<TAttribute>());
+            var query = instance.GetType().GetMethods().Where(x => ReflectionExtensions.Has<TAttribute>(x));
 
             foreach (var q in query)
-                await q.CallAsync(instance);
+                await q.Call(instance);
         }
 
         static IEnumerable<object[]> GetParameters(Test test)

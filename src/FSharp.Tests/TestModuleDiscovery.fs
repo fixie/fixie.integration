@@ -5,10 +5,10 @@ open System.Collections.Generic
 open System.Reflection
 open Fixie
 
-type TestingConvention () =
-  interface Discovery with
+type TestModuleDiscovery () =
+  interface IDiscovery with
     member this.TestClasses(concreteClasses: IEnumerable<Type>) =
       Seq.filter (fun x -> x.Name.EndsWith("Tests")) concreteClasses;
 
     member this.TestMethods(publicMethods: IEnumerable<MethodInfo>) =
-      publicMethods;
+      Seq.filter (fun x -> x.IsStatic) publicMethods

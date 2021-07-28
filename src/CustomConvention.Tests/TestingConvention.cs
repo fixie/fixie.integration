@@ -8,120 +8,107 @@
     using Fixie;
     using Fixie.Integration;
 
-    class TestingConvention : Discovery, Execution
+    public class TestProject : ITestProject
     {
-        static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
-        readonly bool shouldRunAll;
-        readonly IReadOnlyList<string> desiredCategories;
+        static readonly string[] LifecycleMethods = {"SetUp", "TearDown"};
 
-        public TestingConvention(TestContext testContext)
+        public void Configure(TestConfiguration configuration, TestEnvironment environment)
         {
-            desiredCategories = testContext.CustomArguments;
-            shouldRunAll = !desiredCategories.Any();
+            var discovery = new CustomDiscovery(environment);
+            var execution = new CustomExecution();
+
+            configuration.Conventions.Add(discovery, execution);
         }
 
-        public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
-            => concreteClasses.Where(x => x.Name.EndsWith("Tests"));
-
-        public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
-            => publicMethods
-                .Where(x => !LifecycleMethods.Contains(x.Name))
-                .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
-                .Shuffle();
-
-        public async Task RunAsync(TestAssembly testAssembly)
+        class CustomDiscovery : IDiscovery
         {
-            var executeExplicitSkip = SingleTestWasRequested(testAssembly);
+            readonly bool shouldRunAll;
+            readonly IReadOnlyList<string> desiredCategories;
 
-            foreach (var testClass in testAssembly.TestClasses)
+            public CustomDiscovery(TestEnvironment environment)
             {
-                foreach (var test in testClass.Tests)
+                desiredCategories = environment.CustomArguments;
+                shouldRunAll = !desiredCategories.Any();
+            }
+
+            public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
+                => concreteClasses.Where(x => x.Name.EndsWith("Tests"));
+
+            public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
+                => publicMethods
+                    .Where(x => !LifecycleMethods.Contains(x.Name))
+                    .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
+                    .Shuffle();
+
+            static bool MethodHasAnyDesiredCategory(MethodInfo method, IReadOnlyList<string> desiredCategories)
+                => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
+
+            static CategoryAttribute[] Categories(MethodInfo method)
+                => method.GetCustomAttributes<CategoryAttribute>(true).ToArray();
+        }
+
+        class CustomExecution : IExecution
+        {
+            public async Task Run(TestSuite testSuite)
+            {
+                var executeExplicitSkip = SingleTestWasRequested(testSuite);
+
+                foreach (var testClass in testSuite.TestClasses)
                 {
-                    if (test.Method.Has<SkipAttribute>() && !executeExplicitSkip)
-                        continue;
-
-                    using var ioc = InitContainerForIntegrationTests();
-
-                    var instance = ioc.Construct(testClass.Type);
-
-                    await TryLifecycleMethod(testClass, instance, "SetUp");
-
-                    if (test.HasParameters)
+                    foreach (var test in testClass.Tests)
                     {
-                        foreach (var parameters in UsingInputAttributes(test))
-                            await test.RunAsync(instance, parameters);
-                    }
-                    else
-                    {
-                        await test.RunAsync(instance);
-                    }
+                        if (test.Method.Has<SkipAttribute>() && !executeExplicitSkip)
+                            continue;
 
-                    await TryLifecycleMethod(testClass, instance, "TearDown");
+                        using var ioc = InitContainerForIntegrationTests();
+
+                        var instance = ioc.Construct(testClass.Type);
+
+                        await TryLifecycleMethod(testClass, instance, "SetUp");
+
+                        if (test.HasParameters)
+                        {
+                            foreach (var parameters in UsingInputAttributes(test))
+                                await test.Run(instance, parameters);
+                        }
+                        else
+                        {
+                            await test.Run(instance);
+                        }
+
+                        await TryLifecycleMethod(testClass, instance, "TearDown");
+                    }
                 }
             }
-        }
 
-        static bool SingleTestWasRequested(TestAssembly testAssembly)
-        {
-            var testClasses = testAssembly.TestClasses;
-            
-            return testClasses.Count == 1 &&
-                   testClasses.Single().Tests.Count == 1;
-        }
+            static bool SingleTestWasRequested(TestSuite testSuite)
+            {
+                var testClasses = testSuite.TestClasses;
 
-        static async Task TryLifecycleMethod(TestClass testClass, object instance, string name)
-        {
-            var method = testClass.Type.GetMethod(name);
-            
-            if (method != null)
-                await method.CallAsync(instance);
-        }
+                return testClasses.Count == 1 &&
+                       testClasses.Single().Tests.Count == 1;
+            }
 
-        static IEnumerable<object[]> UsingInputAttributes(Test test)
-            => test.GetAll<InputAttribute>().Select(input => input.Parameters);
+            static async Task TryLifecycleMethod(TestClass testClass, object instance, string name)
+            {
+                var method = testClass.Type.GetMethod(name);
 
-        static bool MethodHasAnyDesiredCategory(MethodInfo method, IReadOnlyList<string> desiredCategories)
-            => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
+                if (method != null)
+                    await method.Call(instance);
+            }
 
-        static CategoryAttribute[] Categories(MethodInfo method)
-            => method.GetCustomAttributes<CategoryAttribute>(true).ToArray();
+            static IEnumerable<object[]> UsingInputAttributes(Test test)
+                => test.GetAll<InputAttribute>().Select(input => input.Parameters);
 
-        static IoCContainer InitContainerForIntegrationTests()
-        {
-            var container = new IoCContainer();
-            container.Add(typeof(IDatabase), typeof(RealDatabase));
-            container.Add(typeof(IThirdPartyService), typeof(FakeThirdPartyService));
-            return container;
+            static IoCContainer InitContainerForIntegrationTests()
+            {
+                var container = new IoCContainer();
+                container.Add(typeof(IDatabase), typeof(RealDatabase));
+                container.Add(typeof(IThirdPartyService), typeof(FakeThirdPartyService));
+                return container;
+            }
         }
     }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    class InputAttribute : Attribute
-    {
-        public InputAttribute(params object[] parameters)
-        {
-            Parameters = parameters;
-        }
-
-        public object[] Parameters { get; }
-    }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    class SkipAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    abstract class CategoryAttribute : Attribute
-    {
-        public string Name => GetType().Name.Replace("Attribute", "");
-    }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    class CategoryAAttribute : CategoryAttribute { }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    class CategoryBAttribute : CategoryAttribute { }
 
     class FakeThirdPartyService : IThirdPartyService
     {
