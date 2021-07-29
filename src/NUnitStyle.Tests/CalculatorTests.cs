@@ -5,7 +5,7 @@
     using Shouldly;
 
     [TestFixture]
-    public class CalculatorTests : IDisposable
+    public class CalculatorTests
     {
         Calculator calculator;
 
@@ -64,11 +64,6 @@
 
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
-        {
-            Log.WhereAmI();
-        }
-
-        public void Dispose()
         {
             Log.WhereAmI();
         }

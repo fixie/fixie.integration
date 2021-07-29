@@ -1,18 +1,29 @@
 ﻿namespace NUnitStyle.Tests
 {
-    using System;
     using System.Collections.Generic;
     using Fixie.Integration;
     using Shouldly;
 
     [TestFixture]
-    public class TestCaseSourceAttributeCalculatorTests : IDisposable
+    public class TestCaseSourceAttributeCalculatorTests
     {
         readonly Calculator calculator;
 
         public TestCaseSourceAttributeCalculatorTests()
         {
             calculator = new Calculator();
+            Log.WhereAmI();
+        }
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            Log.WhereAmI();
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
             Log.WhereAmI();
         }
 
@@ -56,7 +67,14 @@
             calculator.Add(a, b).ShouldBe(expectedSum);
         }
 
-        public void Dispose()
+        [TearDown]
+        public void TearDown()
+        {
+            Log.WhereAmI();
+        }
+
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
         {
             Log.WhereAmI();
         }

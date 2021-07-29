@@ -6,7 +6,7 @@
 
     public class NestedTests
     {
-        class AddingTests : IDisposable
+        class AddingTests
         {
             readonly Calculator calculator;
 
@@ -21,14 +21,9 @@
                 Log.WhereAmI();
                 calculator.Add(2, 3).ShouldBe(5);
             }
-
-            public void Dispose()
-            {
-                Log.WhereAmI();
-            }
         }
 
-        class SubtractingTests : IDisposable
+        class SubtractingTests
         {
             readonly Calculator calculator;
 
@@ -42,11 +37,6 @@
             {
                 Log.WhereAmI();
                 calculator.Subtract(5, 3).ShouldBe(2);
-            }
-
-            public void Dispose()
-            {
-                Log.WhereAmI();
             }
         }
     }

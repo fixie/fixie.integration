@@ -4,7 +4,7 @@
     using Fixie.Integration;
     using Shouldly;
 
-    class CalculatorTests : IDisposable
+    class CalculatorTests
     {
         public CalculatorTests()
         {
@@ -29,11 +29,6 @@
         {
             Log.WhereAmI();
             throw new Exception("This test is written to fail, to demonstrate failure reporting.");
-        }
-
-        public void Dispose()
-        {
-            Log.WhereAmI();
         }
     }
 }

@@ -4,100 +4,111 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Fixie;
     using Fixie.Integration;
 
-    class TestingConvention : Discovery, Execution, IDisposable
+    public class TestProject : ITestProject
     {
-        static readonly string[] LifecycleMethods = { "SetUp", "TearDown" };
-        readonly IoCContainer ioc = InitContainerForIntegrationTests();
+        static readonly string[] LifecycleMethods = {"SetUp", "TearDown"};
 
-        public TestingConvention(string[] include)
+        public void Configure(TestConfiguration configuration, TestEnvironment environment)
         {
-            var desiredCategories = include;
-            var shouldRunAll = !desiredCategories.Any();
+            var discovery = new CustomDiscovery(environment);
+            var execution = new CustomExecution();
 
-            Methods
-                .Where(x => !LifecycleMethods.Contains(x.Name))
-                .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
-                .Shuffle();
-
-            Parameters
-                .Add<InputAttributeParameterSource>();
+            configuration.Conventions.Add(discovery, execution);
         }
 
-        public void Execute(TestClass testClass)
+        class CustomDiscovery : IDiscovery
         {
-            var methodWasExplicitlyRequested = testClass.TargetMethod != null;
+            readonly bool shouldRunAll;
+            readonly IReadOnlyList<string> desiredCategories;
 
-            testClass.RunCases(@case =>
+            public CustomDiscovery(TestEnvironment environment)
             {
-                var instance = testClass.Type.IsStatic() ? null : ioc.Construct(testClass.Type);
+                desiredCategories = environment.CustomArguments;
+                shouldRunAll = !desiredCategories.Any();
+            }
 
-                if (methodWasExplicitlyRequested || !@case.Method.Has<SkipAttribute>())
+            public IEnumerable<Type> TestClasses(IEnumerable<Type> concreteClasses)
+                => concreteClasses.Where(x => x.Name.EndsWith("Tests"));
+
+            public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
+                => publicMethods
+                    .Where(x => !LifecycleMethods.Contains(x.Name))
+                    .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
+                    .Shuffle();
+
+            static bool MethodHasAnyDesiredCategory(MethodInfo method, IReadOnlyList<string> desiredCategories)
+                => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
+
+            static CategoryAttribute[] Categories(MethodInfo method)
+                => method.GetCustomAttributes<CategoryAttribute>(true).ToArray();
+        }
+
+        class CustomExecution : IExecution
+        {
+            public async Task Run(TestSuite testSuite)
+            {
+                var executeExplicitSkip = SingleTestWasRequested(testSuite);
+
+                foreach (var testClass in testSuite.TestClasses)
                 {
-                    testClass.Type.GetMethod("SetUp")?.Execute(instance);
-                    @case.Execute(instance);
-                    testClass.Type.GetMethod("TearDown")?.Execute(instance);
+                    foreach (var test in testClass.Tests)
+                    {
+                        if (test.Method.Has<SkipAttribute>() && !executeExplicitSkip)
+                            continue;
+
+                        using var ioc = InitContainerForIntegrationTests();
+
+                        var instance = ioc.Construct(testClass.Type);
+
+                        await TryLifecycleMethod(testClass, instance, "SetUp");
+
+                        if (test.HasParameters)
+                        {
+                            foreach (var parameters in UsingInputAttributes(test))
+                                await test.Run(instance, parameters);
+                        }
+                        else
+                        {
+                            await test.Run(instance);
+                        }
+
+                        await TryLifecycleMethod(testClass, instance, "TearDown");
+                    }
                 }
+            }
 
-                instance.Dispose();
-            });
+            static bool SingleTestWasRequested(TestSuite testSuite)
+            {
+                var testClasses = testSuite.TestClasses;
+
+                return testClasses.Count == 1 &&
+                       testClasses.Single().Tests.Count == 1;
+            }
+
+            static async Task TryLifecycleMethod(TestClass testClass, object instance, string name)
+            {
+                var method = testClass.Type.GetMethod(name);
+
+                if (method != null)
+                    await method.Call(instance);
+            }
+
+            static IEnumerable<object[]> UsingInputAttributes(Test test)
+                => test.GetAll<InputAttribute>().Select(input => input.Parameters);
+
+            static IoCContainer InitContainerForIntegrationTests()
+            {
+                var container = new IoCContainer();
+                container.Add(typeof(IDatabase), typeof(RealDatabase));
+                container.Add(typeof(IThirdPartyService), typeof(FakeThirdPartyService));
+                return container;
+            }
         }
-
-        static bool MethodHasAnyDesiredCategory(MethodInfo method, string[] desiredCategories)
-            => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
-
-        static CategoryAttribute[] Categories(MethodInfo method)
-            => method.GetCustomAttributes<CategoryAttribute>(true).ToArray();
-
-        static IoCContainer InitContainerForIntegrationTests()
-        {
-            var container = new IoCContainer();
-            container.Add(typeof(IDatabase), typeof(RealDatabase));
-            container.Add(typeof(IThirdPartyService), typeof(FakeThirdPartyService));
-            return container;
-        }
-
-        public void Dispose()
-        {
-            ioc.Dispose();
-        }
     }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    class InputAttribute : Attribute
-    {
-        public InputAttribute(params object[] parameters)
-        {
-            Parameters = parameters;
-        }
-
-        public object[] Parameters { get; }
-    }
-
-    class InputAttributeParameterSource : ParameterSource
-    {
-        public IEnumerable<object[]> GetParameters(MethodInfo method)
-            => method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
-    }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    class SkipAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    abstract class CategoryAttribute : Attribute
-    {
-        public string Name => GetType().Name.Replace("Attribute", "");
-    }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    class CategoryAAttribute : CategoryAttribute { }
-
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    class CategoryBAttribute : CategoryAttribute { }
 
     class FakeThirdPartyService : IThirdPartyService
     {

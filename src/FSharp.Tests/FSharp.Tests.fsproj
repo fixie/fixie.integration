@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fixie" Version="$(FixieVersion)" />
+    <PackageReference Include="Fixie.TestAdapter" Version="$(FixieVersion)" />
     <PackageReference Include="Shouldly" Version="$(ShouldlyVersion)" />
-    <DotNetCliToolReference Include="Fixie.Console" Version="$(FixieVersion)" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="TestModuleDiscovery.fs" />
+    <Compile Include="TestProject.fs" />
     <Compile Include="AsyncTests.fs" />
     <Compile Include="CalculatorTests.fs" />
   </ItemGroup>
