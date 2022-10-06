@@ -8,6 +8,7 @@ function step($command, $expectedReturnCode=0) {
     }
 }
 
+step { dotnet --version }
 step { dotnet tool restore }
 step { dotnet clean src -c Release --nologo -v minimal }
 step { dotnet build src -c Release --nologo }
