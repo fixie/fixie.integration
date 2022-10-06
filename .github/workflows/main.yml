@@ -12,6 +12,8 @@ jobs:
     - name: .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '5.0.408'
+        dotnet-version: |
+          3.1
+          6.0
     - name: Build and Test
       run: pwsh ./build.ps1
