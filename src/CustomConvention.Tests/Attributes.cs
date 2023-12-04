@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CustomConvention.Tests;
+﻿namespace CustomConvention.Tests;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 class InputAttribute : Attribute

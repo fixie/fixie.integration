@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Fixie.Integration;
+﻿using Fixie.Integration;
 using Shouldly;
 
 namespace DefaultConvention.Tests;

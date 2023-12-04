@@ -3,5 +3,6 @@
         <FixieVersion>3.4.0</FixieVersion>
         <ShouldlyVersion>4.2.1</ShouldlyVersion>
         <UseArtifactsOutput>true</UseArtifactsOutput>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 </Project>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NUnitStyle.Tests;
+﻿namespace NUnitStyle.Tests;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class TestFixtureAttribute : Attribute { }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Fixie.Integration;
+﻿namespace Fixie.Integration;
 
 public class IoCContainer : IDisposable
 {

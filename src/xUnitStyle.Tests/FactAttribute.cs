@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace xUnitStyle.Tests;
+﻿namespace xUnitStyle.Tests;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class FactAttribute : Attribute { }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Fixie.Integration;
+﻿using Fixie.Integration;
 using Shouldly;
 
 namespace NUnitStyle.Tests;
