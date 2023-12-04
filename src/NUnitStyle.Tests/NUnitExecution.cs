@@ -20,6 +20,8 @@
 
                 foreach (var test in testClass.Tests)
                 {
+                    await test.Start();
+
                     if (test.HasParameters)
                     {
                         foreach (var parameters in GetParameters(test))
