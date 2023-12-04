@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/CustomConvention.Tests/bin/Debug/net7.0/CustomConvention.Tests.dll",
+            "program": "${workspaceFolder}/src/artifacts/bin/CustomConvention.Tests/debug_net8.0/CustomConvention.Tests.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/CustomConvention.Tests",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

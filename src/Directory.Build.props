@@ -2,5 +2,6 @@
     <PropertyGroup>
         <FixieVersion>3.4.0</FixieVersion>
         <ShouldlyVersion>3.0.2</ShouldlyVersion>
+        <UseArtifactsOutput>true</UseArtifactsOutput>
     </PropertyGroup>
 </Project>
