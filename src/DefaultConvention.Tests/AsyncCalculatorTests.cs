@@ -1,33 +1,32 @@
-﻿namespace DefaultConvention.Tests
+﻿namespace DefaultConvention.Tests;
+
+using System.Threading.Tasks;
+using Fixie.Integration;
+using Shouldly;
+
+class AsyncCalculatorTests
 {
-    using System.Threading.Tasks;
-    using Fixie.Integration;
-    using Shouldly;
+    readonly Calculator calculator;
 
-    class AsyncCalculatorTests
+    public AsyncCalculatorTests()
     {
-        readonly Calculator calculator;
-
-        public AsyncCalculatorTests()
-        {
-            calculator = new Calculator();
-            Log.WhereAmI();
-        }
-
-        public async Task ShouldAdd()
-        {
-            await Awaited();
-            Log.WhereAmI();
-            calculator.Add(2, 3).ShouldBe(5);
-        }
-
-        public async Task ShouldSubtract()
-        {
-            await Awaited();
-            Log.WhereAmI();
-            calculator.Subtract(5, 3).ShouldBe(2);
-        }
-
-        static Task Awaited() => Task.FromResult(0);
+        calculator = new Calculator();
+        Log.WhereAmI();
     }
+
+    public async Task ShouldAdd()
+    {
+        await Awaited();
+        Log.WhereAmI();
+        calculator.Add(2, 3).ShouldBe(5);
+    }
+
+    public async Task ShouldSubtract()
+    {
+        await Awaited();
+        Log.WhereAmI();
+        calculator.Subtract(5, 3).ShouldBe(2);
+    }
+
+    static Task Awaited() => Task.FromResult(0);
 }

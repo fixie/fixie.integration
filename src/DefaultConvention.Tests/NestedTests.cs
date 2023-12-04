@@ -1,43 +1,42 @@
-﻿namespace DefaultConvention.Tests
+﻿namespace DefaultConvention.Tests;
+
+using System;
+using Fixie.Integration;
+using Shouldly;
+
+public class NestedTests
 {
-    using System;
-    using Fixie.Integration;
-    using Shouldly;
-
-    public class NestedTests
+    class AddingTests
     {
-        class AddingTests
+        readonly Calculator calculator;
+
+        public AddingTests()
         {
-            readonly Calculator calculator;
-
-            public AddingTests()
-            {
-                calculator = new Calculator();
-                Log.WhereAmI();
-            }
-
-            public void ShouldAdd()
-            {
-                Log.WhereAmI();
-                calculator.Add(2, 3).ShouldBe(5);
-            }
+            calculator = new Calculator();
+            Log.WhereAmI();
         }
 
-        class SubtractingTests
+        public void ShouldAdd()
         {
-            readonly Calculator calculator;
+            Log.WhereAmI();
+            calculator.Add(2, 3).ShouldBe(5);
+        }
+    }
 
-            public SubtractingTests()
-            {
-                calculator = new Calculator();
-                Log.WhereAmI();
-            }
+    class SubtractingTests
+    {
+        readonly Calculator calculator;
 
-            public void ShouldSubtract()
-            {
-                Log.WhereAmI();
-                calculator.Subtract(5, 3).ShouldBe(2);
-            }
+        public SubtractingTests()
+        {
+            calculator = new Calculator();
+            Log.WhereAmI();
+        }
+
+        public void ShouldSubtract()
+        {
+            Log.WhereAmI();
+            calculator.Subtract(5, 3).ShouldBe(2);
         }
     }
 }

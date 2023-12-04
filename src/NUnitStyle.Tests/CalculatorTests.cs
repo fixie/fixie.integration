@@ -1,71 +1,70 @@
-﻿namespace NUnitStyle.Tests
+﻿namespace NUnitStyle.Tests;
+
+using System;
+using Fixie.Integration;
+using Shouldly;
+
+[TestFixture]
+public class CalculatorTests
 {
-    using System;
-    using Fixie.Integration;
-    using Shouldly;
+    Calculator calculator;
 
-    [TestFixture]
-    public class CalculatorTests
+    public CalculatorTests()
     {
-        Calculator calculator;
+        Log.WhereAmI();
+    }
 
-        public CalculatorTests()
-        {
-            Log.WhereAmI();
-        }
+    [TestFixtureSetUp]
+    public void TestFixtureSetUp()
+    {
+        Log.WhereAmI();
+        calculator = new Calculator();
+    }
 
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
-        {
-            Log.WhereAmI();
-            calculator = new Calculator();
-        }
+    [SetUp]
+    public void SetUp()
+    {
+        Log.WhereAmI();
+    }
 
-        [SetUp]
-        public void SetUp()
-        {
-            Log.WhereAmI();
-        }
+    [Test]
+    public void ShouldAdd()
+    {
+        Log.WhereAmI();
+        calculator.Add(2, 3).ShouldBe(5);
+    }
 
-        [Test]
-        public void ShouldAdd()
-        {
-            Log.WhereAmI();
-            calculator.Add(2, 3).ShouldBe(5);
-        }
+    [Test]
+    public void ShouldSubtract()
+    {
+        Log.WhereAmI();
+        calculator.Subtract(5, 3).ShouldBe(2);
+    }
 
-        [Test]
-        public void ShouldSubtract()
-        {
-            Log.WhereAmI();
-            calculator.Subtract(5, 3).ShouldBe(2);
-        }
+    [Test]
+    public void ShouldDivide()
+    {
+        Log.WhereAmI();
+        calculator.Divide(6, 3).ShouldBe(2);
+    }
 
-        [Test]
-        public void ShouldDivide()
-        {
-            Log.WhereAmI();
-            calculator.Divide(6, 3).ShouldBe(2);
-        }
+    [Test]
+    [ExpectedException(typeof(DivideByZeroException))]
+    public void ShouldThrowWhenDividingByZero()
+    {
+        Log.WhereAmI();
+        calculator.Divide(1, 0);
+    }
 
-        [Test]
-        [ExpectedException(typeof(DivideByZeroException))]
-        public void ShouldThrowWhenDividingByZero()
-        {
-            Log.WhereAmI();
-            calculator.Divide(1, 0);
-        }
+    [TearDown]
+    public void TearDown()
+    {
+        Log.WhereAmI();
+    }
 
-        [TearDown]
-        public void TearDown()
-        {
-            Log.WhereAmI();
-        }
-
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
-        {
-            Log.WhereAmI();
-        }
+    [TestFixtureTearDown]
+    public void TestFixtureTearDown()
+    {
+        Log.WhereAmI();
     }
 }

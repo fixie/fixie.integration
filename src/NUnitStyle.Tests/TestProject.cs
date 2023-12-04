@@ -1,12 +1,11 @@
-﻿namespace NUnitStyle.Tests
-{
-    using Fixie;
+﻿namespace NUnitStyle.Tests;
 
-    public class TestProject : ITestProject
+using Fixie;
+
+public class TestProject : ITestProject
+{
+    public void Configure(TestConfiguration configuration, TestEnvironment environment)
     {
-        public void Configure(TestConfiguration configuration, TestEnvironment environment)
-        {
-            configuration.Conventions.Add<NUnitDiscovery, NUnitExecution>();
-        }
+        configuration.Conventions.Add<NUnitDiscovery, NUnitExecution>();
     }
 }
