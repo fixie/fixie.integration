@@ -1,8 +1,8 @@
-﻿namespace NUnitStyle.Tests;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fixie.Integration;
 using Shouldly;
+
+namespace NUnitStyle.Tests;
 
 [TestFixture]
 public class TestCaseSourceAttributeCalculatorTests

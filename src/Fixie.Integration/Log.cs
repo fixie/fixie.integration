@@ -1,7 +1,7 @@
-﻿namespace Fixie.Integration;
-
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
+
+namespace Fixie.Integration;
 
 public static class Log
 {

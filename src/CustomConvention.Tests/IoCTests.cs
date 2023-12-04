@@ -1,7 +1,7 @@
-﻿namespace CustomConvention.Tests;
-
-using Fixie.Integration;
+﻿using Fixie.Integration;
 using Shouldly;
+
+namespace CustomConvention.Tests;
 
 class IoCTests
 {

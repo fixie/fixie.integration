@@ -1,7 +1,7 @@
-﻿namespace DefaultConvention.Tests;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Shouldly;
+
+namespace DefaultConvention.Tests;
 
 class DependenciesTests
 {

@@ -1,8 +1,8 @@
-﻿namespace CustomConvention.Tests;
-
-using System;
+﻿using System;
 using Fixie.Integration;
 using Shouldly;
+
+namespace CustomConvention.Tests;
 
 class CalculatorTests
 {

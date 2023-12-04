@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Fixie.Integration;
-
-using System.Threading.Tasks;
 
 public static class TestingExtensions
 {

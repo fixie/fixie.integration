@@ -1,6 +1,6 @@
-﻿namespace xUnitStyle.Tests;
+﻿using Fixie;
 
-using Fixie;
+namespace xUnitStyle.Tests;
 
 public class TestProject : ITestProject
 {

@@ -1,10 +1,10 @@
-﻿namespace NUnitStyle.Tests;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Fixie;
+
+namespace NUnitStyle.Tests;
 
 public class NUnitDiscovery : IDiscovery
 {

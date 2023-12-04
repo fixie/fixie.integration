@@ -1,6 +1,6 @@
-﻿namespace DefaultConvention.Tests;
+﻿using Fixie.Integration;
 
-using Fixie.Integration;
+namespace DefaultConvention.Tests;
 
 abstract class BaseTests
 {

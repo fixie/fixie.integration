@@ -1,7 +1,7 @@
-﻿namespace DefaultConvention.Tests;
-
-using Fixie.Integration;
+﻿using Fixie.Integration;
 using Shouldly;
+
+namespace DefaultConvention.Tests;
 
 public static class StaticTests
 {

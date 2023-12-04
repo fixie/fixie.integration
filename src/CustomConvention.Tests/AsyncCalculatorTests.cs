@@ -1,8 +1,8 @@
-﻿namespace CustomConvention.Tests;
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Fixie.Integration;
 using Shouldly;
+
+namespace CustomConvention.Tests;
 
 class AsyncCalculatorTests
 {

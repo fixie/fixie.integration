@@ -1,12 +1,12 @@
-﻿namespace CustomConvention.Tests;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Fixie;
 using Fixie.Integration;
+
+namespace CustomConvention.Tests;
 
 public class TestProject : ITestProject
 {

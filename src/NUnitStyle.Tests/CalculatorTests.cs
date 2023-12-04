@@ -1,8 +1,8 @@
-﻿namespace NUnitStyle.Tests;
-
-using System;
+﻿using System;
 using Fixie.Integration;
 using Shouldly;
+
+namespace NUnitStyle.Tests;
 
 [TestFixture]
 public class CalculatorTests

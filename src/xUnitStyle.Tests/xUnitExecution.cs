@@ -1,12 +1,12 @@
-﻿namespace xUnitStyle.Tests;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Fixie;
 using Fixie.Integration;
+
+namespace xUnitStyle.Tests;
 
 public class xUnitExecution : IExecution
 {

@@ -1,10 +1,9 @@
-﻿namespace xUnitStyle.Tests;
-
-using System;
-using System.Text;
+﻿using System;
 using Fixie.Integration;
 using Shouldly;
-    
+
+namespace xUnitStyle.Tests;
+
 public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableFixtureData>, IDisposable
 {
     readonly Calculator calculator;

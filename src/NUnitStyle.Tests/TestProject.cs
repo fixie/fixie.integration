@@ -1,6 +1,6 @@
-﻿namespace NUnitStyle.Tests;
+﻿using Fixie;
 
-using Fixie;
+namespace NUnitStyle.Tests;
 
 public class TestProject : ITestProject
 {

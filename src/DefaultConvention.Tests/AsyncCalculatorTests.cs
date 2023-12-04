@@ -1,8 +1,8 @@
-﻿namespace DefaultConvention.Tests;
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Fixie.Integration;
 using Shouldly;
+
+namespace DefaultConvention.Tests;
 
 class AsyncCalculatorTests
 {
