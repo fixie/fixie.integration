@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
