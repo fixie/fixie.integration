@@ -28,7 +28,7 @@ public class ExpectedExceptionAttribute : Attribute
 
     public Type ExpectedException { get; set; }
 
-    public string ExpectedMessage { get; set; }
+    public string? ExpectedMessage { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
@@ -46,6 +46,6 @@ public class TestCaseSourceAttribute : Attribute
         SourceType = null;
     }
 
-    public Type SourceType { get; set; }
+    public Type? SourceType { get; set; }
     public string SourceName { get; private set; }
 }
