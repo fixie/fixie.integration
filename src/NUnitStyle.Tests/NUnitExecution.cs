@@ -35,7 +35,7 @@ public class NUnitExecution : IExecution
         }
     }
 
-    static async Task RunTestCaseLifecycle(object instance, Test test, params object[] parameters)
+    static async Task RunTestCaseLifecycle(object instance, Test test, params object?[] parameters)
     {
         await Call<SetUpAttribute>(instance);
 
@@ -103,9 +103,9 @@ public class NUnitExecution : IExecution
             await q.Call(instance);
     }
 
-    static IEnumerable<object[]> GetParameters(Test test)
+    static IEnumerable<object?[]> GetParameters(Test test)
     {
-        var testInvocations = new List<object[]>();
+        var testInvocations = new List<object?[]>();
 
         var testCaseSourceAttributes = test.GetAll<TestCaseSourceAttribute>();
 
@@ -129,19 +129,40 @@ public class NUnitExecution : IExecution
         return testInvocations;
     }
 
-    static IEnumerable<object[]> InvocationsForTestCaseSource(MemberInfo member)
+    static IEnumerable<object?[]> InvocationsForTestCaseSource(MemberInfo member)
     {
         var field = member as FieldInfo;
         if (field != null && field.IsStatic)
-            return (IEnumerable<object[]>)field.GetValue(null);
+        {
+            var invocations = field.GetValue(null);
+            
+            if (invocations == null)
+                throw new Exception("Test Case Source " + member.Name + " return null, but expected test case data.");
+            
+            return (IEnumerable<object?[]>)invocations;
+        }
 
         var property = member as PropertyInfo;
-        if (property != null && property.GetGetMethod(true).IsStatic)
-            return (IEnumerable<object[]>)property.GetValue(null, null);
+        if (property != null && property.GetGetMethod(true)!.IsStatic)
+        {
+            var invocations = property.GetValue(null, null);
+
+            if (invocations == null)
+                throw new Exception("Test Case Source " + member.Name + " return null, but expected test case data.");
+
+            return (IEnumerable<object?[]>)invocations;
+        }
 
         var m = member as MethodInfo;
         if (m != null && m.IsStatic)
-            return (IEnumerable<object[]>)m.Invoke(null, null);
+        {
+            var invocations = m.Invoke(null, null);
+
+            if (invocations == null)
+                throw new Exception("Test Case Source " + member.Name + " return null, but expected test case data.");
+
+            return (IEnumerable<object?[]>)invocations;
+        }
 
         throw new Exception($"Member '{member.Name}' must be static to be used with TestCaseSource");
     }
