@@ -4,5 +4,7 @@
         <ShouldlyVersion>4.2.1</ShouldlyVersion>
         <UseArtifactsOutput>true</UseArtifactsOutput>
         <ImplicitUsings>enable</ImplicitUsings>
+	    <Nullable>enable</Nullable>
+	    <WarningsAsErrors>nullable</WarningsAsErrors>
     </PropertyGroup>
 </Project>
