@@ -97,7 +97,7 @@ public class NUnitExecution : IExecution
 
     static async Task Call<TAttribute>(object instance) where TAttribute : Attribute
     {
-        var query = instance.GetType().GetMethods().Where(x => ReflectionExtensions.Has<TAttribute>(x));
+        var query = instance.GetType().GetMethods().Where(x => x.Has<TAttribute>());
 
         foreach (var q in query)
             await q.Call(instance);
