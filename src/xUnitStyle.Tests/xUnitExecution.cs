@@ -39,7 +39,10 @@ public class xUnitExecution : IExecution
 
             var fixtureInstance = Activator.CreateInstance(fixtureDataType);
 
-            var method = @interface.GetMethod("SetFixture", new[] {fixtureDataType});
+            if (fixtureInstance == null)
+                throw new Exception("Could not construct fixture data instance of type " + fixtureDataType);
+
+            var method = @interface.GetMethod("SetFixture", new[] {fixtureDataType})!;
             fixtures[method] = fixtureInstance;
         }
 
