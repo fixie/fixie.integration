@@ -25,8 +25,8 @@ public class IoCContainer : IDisposable
 
     public object Resolve(Type type)
     {
-        if (typeMappings.ContainsKey(type))
-            type = typeMappings[type];
+        if (typeMappings.TryGetValue(type, out var mapping))
+            type = mapping;
 
         var instance = Construct(type);
 
