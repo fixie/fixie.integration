@@ -6,7 +6,7 @@ namespace NUnitStyle.Tests;
 [TestFixture]
 public class CalculatorTests
 {
-    Calculator calculator;
+    Calculator? calculator;
 
     public CalculatorTests()
     {
@@ -30,6 +30,7 @@ public class CalculatorTests
     public void ShouldAdd()
     {
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Add(2, 3).ShouldBe(5);
     }
 
@@ -37,6 +38,7 @@ public class CalculatorTests
     public void ShouldSubtract()
     {
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Subtract(5, 3).ShouldBe(2);
     }
 
@@ -44,6 +46,7 @@ public class CalculatorTests
     public void ShouldDivide()
     {
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Divide(6, 3).ShouldBe(2);
     }
 
@@ -52,6 +55,7 @@ public class CalculatorTests
     public void ShouldThrowWhenDividingByZero()
     {
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Divide(1, 0);
     }
 

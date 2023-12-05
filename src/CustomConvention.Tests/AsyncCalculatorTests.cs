@@ -5,7 +5,7 @@ namespace CustomConvention.Tests;
 
 class AsyncCalculatorTests
 {
-    Calculator calculator;
+    Calculator? calculator;
 
     public AsyncCalculatorTests()
     {
@@ -23,6 +23,7 @@ class AsyncCalculatorTests
     {
         await Awaited();
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Add(2, 3).ShouldBe(5);
     }
 
@@ -30,6 +31,7 @@ class AsyncCalculatorTests
     {
         await Awaited();
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Subtract(5, 3).ShouldBe(2);
     }
 

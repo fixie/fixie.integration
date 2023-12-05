@@ -5,7 +5,7 @@ namespace CustomConvention.Tests;
 
 class CalculatorTests
 {
-    Calculator calculator;
+    Calculator? calculator;
 
     public CalculatorTests()
     {
@@ -22,6 +22,7 @@ class CalculatorTests
     public void ShouldAdd()
     {
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Add(2, 3).ShouldBe(5);
     }
 
@@ -29,6 +30,7 @@ class CalculatorTests
     public void ShouldSubtract()
     {
         Log.WhereAmI();
+        calculator.ShouldNotBeNull();
         calculator.Subtract(5, 3).ShouldBe(2);
     }
 
@@ -38,6 +40,7 @@ class CalculatorTests
     public void ShouldAdd(int a, int b, int expectedSum)
     {
         Log.WhereAmI(new object[] { a, b, expectedSum });
+        calculator.ShouldNotBeNull();
         calculator.Add(a, b).ShouldBe(expectedSum);
     }
 
