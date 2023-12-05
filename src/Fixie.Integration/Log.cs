@@ -12,10 +12,10 @@ public static class Log
             Console.WriteLine();
     }
 
-    public static void WhereAmI(object[] args, [CallerMemberName] string method = default!)
+    public static void WhereAmI(object?[] args, [CallerMemberName] string method = default!)
         => Console.WriteLine($"{method}({String.Join(", ", args)})");
 
-    public static void WhereAmI<T>(object[] args, [CallerMemberName] string method = default!)
+    public static void WhereAmI<T>(object?[] args, [CallerMemberName] string method = default!)
         => Console.WriteLine($"{method}<{typeof(T)}>({String.Join(", ", args)})");
 
     public static void WriteLine(string line)

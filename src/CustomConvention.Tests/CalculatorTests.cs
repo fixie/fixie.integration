@@ -1,4 +1,4 @@
-﻿using Fixie.Integration;
+using Fixie.Integration;
 using Shouldly;
 
 namespace CustomConvention.Tests;
@@ -45,7 +45,7 @@ class CalculatorTests
     [Input(2L, 4L, typeof(long))]
     public void ShouldInferGenericTypes<T>(T a, T b, Type expectedT)
     {
-        Log.WhereAmI<T>(new object[] { a, b, expectedT });
+        Log.WhereAmI<T>(new object?[] { a, b, expectedT });
         typeof(T).ShouldBe(expectedT, $"Expected T to resolve to type {expectedT}, but it resolved to type {typeof(T)} instead.");
     }
 
