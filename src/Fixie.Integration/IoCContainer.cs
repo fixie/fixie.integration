@@ -20,10 +20,7 @@ public class IoCContainer : IDisposable
 
         var instance = Activator.CreateInstance(type, arguments);
 
-        if (instance == null)
-            throw new Exception("Could not construct instance of type " + type);
-
-        return instance;
+        return instance ?? throw new Exception("Could not construct instance of type " + type);
     }
 
     public object Resolve(Type type)
