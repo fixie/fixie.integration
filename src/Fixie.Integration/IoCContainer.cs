@@ -2,8 +2,8 @@
 
 public class IoCContainer : IDisposable
 {
-    readonly Dictionary<Type, Type> typeMappings = new Dictionary<Type, Type>();
-    readonly List<object> instances = new List<object>();
+    readonly Dictionary<Type, Type> typeMappings = new();
+    readonly List<object> instances = new();
 
     public void Add(Type requestedType, Type concreteType)
     {
