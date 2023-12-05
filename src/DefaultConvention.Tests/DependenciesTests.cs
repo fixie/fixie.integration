@@ -13,15 +13,21 @@ class DependenciesTests
         //explicitly referenced by the Fixie.Integration project in
         //this solution.
 
-        typeof(JsonConvert).Assembly.GetName().Version.ToString()
-            .ShouldBe("13.0.0.0");
+        var actualVersion = typeof(JsonConvert).Assembly.GetName().Version;
+
+        actualVersion.ShouldNotBeNull();
+
+        actualVersion.ToString().ShouldBe("13.0.0.0");
 
         var sample = JsonConvert.DeserializeObject<Sample>("{Property:\"Value\"}");
+
+        sample.ShouldNotBeNull();
+
         sample.Property.ShouldBe("Value");
     }
 
     class Sample
     {
-        public string Property { get; set; }
+        public string? Property { get; set; }
     }
 }
