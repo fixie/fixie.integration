@@ -18,7 +18,12 @@ public class IoCContainer : IDisposable
 
         var arguments = parameters.Select(p => Resolve(p.ParameterType)).ToArray();
 
-        return Activator.CreateInstance(type, arguments);
+        var instance = Activator.CreateInstance(type, arguments);
+
+        if (instance == null)
+            throw new Exception("Could not construct instance of type " + type);
+
+        return instance;
     }
 
     public object Resolve(Type type)
