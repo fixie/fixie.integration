@@ -10,8 +10,8 @@ public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableF
     bool executedAddTest = false;
     bool executedSubtractTest = false;
 
-    FixtureData fixtureData;
-    DisposableFixtureData disposableFixtureData;
+    FixtureData? fixtureData;
+    DisposableFixtureData? disposableFixtureData;
 
     public CalculatorTests()
     {
