@@ -8,11 +8,11 @@ public class xUnitExecution : IExecution
 {
     public async Task Run(TestSuite testSuite)
     {
-        foreach (var testClass in testSuite.TestClasses)
+        foreach (var testClass in Shuffle(testSuite.TestClasses))
         {
             var fixtures = PrepareFixtureData(testClass.Type);
 
-            foreach (var test in testClass.Tests)
+            foreach (var test in Shuffle(testClass.Tests))
             {
                 var instance = testClass.Construct();
 
@@ -27,6 +27,13 @@ public class xUnitExecution : IExecution
             foreach (var fixtureInstance in fixtures.Values)
                 await fixtureInstance.DisposeWhenApplicable();
         }
+    }
+
+    static T[] Shuffle<T>(IReadOnlyList<T> items)
+    {
+        var array = items.ToArray();
+        Random.Shared.Shuffle(array);
+        return array;
     }
 
     static Dictionary<MethodInfo, object> PrepareFixtureData(Type testClass)

@@ -11,8 +11,7 @@ public class xUnitDiscovery : IDiscovery
 
     public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
         => publicMethods
-            .Where(x => x.Has<FactAttribute>())
-            .Shuffle();
+            .Where(x => x.Has<FactAttribute>());
 
     static bool HasAnyFactMethods(Type type)
         => type.GetMethods().Any(x => x.Has<FactAttribute>());

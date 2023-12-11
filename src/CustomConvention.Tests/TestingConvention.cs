@@ -33,8 +33,7 @@ public class TestProject : ITestProject
         public IEnumerable<MethodInfo> TestMethods(IEnumerable<MethodInfo> publicMethods)
             => publicMethods
                 .Where(x => !LifecycleMethods.Contains(x.Name))
-                .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories))
-                .Shuffle();
+                .Where(x => shouldRunAll || MethodHasAnyDesiredCategory(x, desiredCategories));
 
         static bool MethodHasAnyDesiredCategory(MethodInfo method, IReadOnlyList<string> desiredCategories)
             => Categories(method).Any(testCategory => desiredCategories.Contains(testCategory.Name));
