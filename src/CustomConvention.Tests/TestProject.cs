@@ -15,7 +15,7 @@ public class TestProject : ITestProject
 
         configuration.Conventions.Add(discovery, execution);
 
-//        if (environment.IsContinuousIntegration())
+        if (environment.IsContinuousIntegration())
         {
             configuration.Reports.Add(new XUnitV2XmlReport(environment));
             configuration.Reports.Add(new JsonReport(environment));
