@@ -4,13 +4,22 @@ using Fixie.Reports;
 
 namespace CustomConvention.Tests;
 
-public class XUnitV2XmlReport(TestEnvironment environment) :
+public class XUnitV2XmlReport :
     IHandler<TestSkipped>,
     IHandler<TestPassed>,
     IHandler<TestFailed>,
     IHandler<ExecutionCompleted>
 {
     readonly SortedDictionary<string, ClassResult> report = [];
+    readonly string path;
+    readonly TestEnvironment environment;
+
+    public XUnitV2XmlReport(TestEnvironment environment)
+    {
+        this.environment = environment;
+
+        path = Path.Combine(environment.RootPath, "TestResults.xml");
+    }
 
     public Task Handle(TestSkipped message)
     {
@@ -61,6 +70,8 @@ public class XUnitV2XmlReport(TestEnvironment environment) :
 
         report.Clear();
 
+        environment.Console.WriteLine($"Report: {path}");
+
         return Task.CompletedTask;
     }
 
@@ -72,13 +83,9 @@ public class XUnitV2XmlReport(TestEnvironment environment) :
 
     void Save(XDocument document)
     {
-        var path = Path.Combine(environment.RootPath, "TestResults.xml");
-
         using var stream = new FileStream(path, FileMode.Create);
         using var writer = new StreamWriter(stream);
         document.Save(writer, SaveOptions.None);
-
-        environment.Console.WriteLine($"Report: {path}");
     }
 
     class ClassResult(string name)

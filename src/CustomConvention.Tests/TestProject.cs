@@ -15,7 +15,11 @@ public class TestProject : ITestProject
 
         configuration.Conventions.Add(discovery, execution);
 
-        configuration.Reports.Add(new XUnitV2XmlReport(environment));
+//        if (environment.IsContinuousIntegration())
+        {
+            configuration.Reports.Add(new XUnitV2XmlReport(environment));
+            configuration.Reports.Add(new JsonReport(environment));
+        }
     }
 
     class CustomDiscovery : IDiscovery
