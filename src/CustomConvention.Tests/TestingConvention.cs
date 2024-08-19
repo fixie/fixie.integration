@@ -14,6 +14,8 @@ public class TestProject : ITestProject
         var execution = new CustomExecution();
 
         configuration.Conventions.Add(discovery, execution);
+
+        configuration.Reports.Add(new XUnitV2XmlReport(environment));
     }
 
     class CustomDiscovery : IDiscovery
