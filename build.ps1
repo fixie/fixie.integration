@@ -10,7 +10,7 @@ function step($command, $expectedReturnCode=0) {
 
 step { dotnet tool restore }
 step { dotnet clean src -c Release --nologo -v minimal }
-step { dotnet build src -c Release --nologo }
+step { dotnet build src -c Release --nologo --tl }
 step { dotnet fixie CustomConvention.Tests -c Release --no-build } 1
 step { dotnet fixie DefaultConvention.Tests -c Release --no-build } 1
 step { dotnet fixie FSharp.Tests -c Release --no-build } 1
