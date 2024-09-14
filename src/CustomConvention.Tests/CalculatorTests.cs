@@ -1,5 +1,4 @@
 using Fixie.Integration;
-using Shouldly;
 
 namespace CustomConvention.Tests;
 

@@ -1,18 +1,18 @@
 module FSharp.Tests.AsyncTests
 
 open System
-open Shouldly
+open Fixie.Assertions
 
 let ``Should Support Passing Async<T> Tests``() =
     async {
         let! result = async { return "Result" }
-        result.ShouldBe("Result")
+        result.ShouldBe("Result", (*In F#, we have to explicitly specify the expression parameter*)"result")
     }
 
 let ``Should Support Passing Task<T> Tests``() =
     async {
         let! result = async { return "Result" }
-        result.ShouldBe("Result")
+        result.ShouldBe("Result", (*In F#, we have to explicitly specify the expression parameter*)"result")
     } |> Async.StartAsTask
 
 let ``Should Support Failing Async<T> Tests``() =

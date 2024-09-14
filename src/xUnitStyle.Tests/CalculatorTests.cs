@@ -1,5 +1,4 @@
 ﻿using Fixie.Integration;
-using Shouldly;
 
 namespace xUnitStyle.Tests;
 
@@ -54,8 +53,8 @@ public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableF
     public void Dispose()
     {
         Log.WhereAmI();
-        (executedAddTest && executedSubtractTest).ShouldBeFalse();
-        (executedAddTest || executedSubtractTest).ShouldBeTrue();
+        (executedAddTest && executedSubtractTest).ShouldBe(false);
+        (executedAddTest || executedSubtractTest).ShouldBe(true);
     }
 }
 

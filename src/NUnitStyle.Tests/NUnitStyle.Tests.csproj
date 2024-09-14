@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fixie.TestAdapter" Version="$(FixieVersion)" />
-    <PackageReference Include="Shouldly" Version="$(ShouldlyVersion)" />
+    <PackageReference Include="Fixie.Assertions" Version="$(FixieAssertionsVersion)" />
   </ItemGroup>
 
   <ItemGroup>

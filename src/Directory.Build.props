@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
     <FixieVersion>3.4.0</FixieVersion>
-    <ShouldlyVersion>4.2.1</ShouldlyVersion>
+    <FixieAssertionsVersion>0.0.1</FixieAssertionsVersion>
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
