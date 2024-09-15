@@ -19,6 +19,7 @@ public class TestProject : ITestProject
         {
             configuration.Reports.Add(new XUnitV2XmlReport(environment));
             configuration.Reports.Add(new JsonReport(environment));
+            configuration.Reports.Add(new GitHubReport(environment));
         }
     }
 
