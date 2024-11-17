@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Fixie;
-using Fixie.Integration;
 using Fixie.Integration.Reports;
 
 namespace CustomConvention.Tests;
@@ -58,9 +57,7 @@ public class TestProject : ITestProject
                     if (test.Method.Has<SkipAttribute>() && !executeExplicitSkip)
                         continue;
 
-                    using var ioc = InitContainerForIntegrationTests();
-
-                    var instance = ioc.Construct(testClass.Type);
+                    var instance = testClass.Construct();
 
                     await TryLifecycleMethod(testClass, instance, "SetUp");
 
@@ -97,18 +94,5 @@ public class TestProject : ITestProject
 
         static IEnumerable<object[]> UsingInputAttributes(Test test)
             => test.GetAll<InputAttribute>().Select(input => input.Parameters);
-
-        static IoCContainer InitContainerForIntegrationTests()
-        {
-            var container = new IoCContainer();
-            container.Add(typeof(IDatabase), typeof(RealDatabase));
-            container.Add(typeof(IThirdPartyService), typeof(FakeThirdPartyService));
-            return container;
-        }
     }
-}
-
-class FakeThirdPartyService : IThirdPartyService
-{
-    public string Invoke() => nameof(FakeThirdPartyService);
 }
