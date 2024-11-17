@@ -1,10 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Fixie;
 using Fixie.Reports;
 using static System.Text.Json.JsonSerializer;
 
-namespace CustomConvention.Tests;
+namespace Fixie.Integration.Reports;
 
 public class JsonReport :
     IHandler<ExecutionStarted>,

@@ -1,8 +1,7 @@
 ﻿using System.Xml.Linq;
-using Fixie;
 using Fixie.Reports;
 
-namespace CustomConvention.Tests;
+namespace Fixie.Integration.Reports;
 
 public class XUnitV2XmlReport :
     IHandler<TestSkipped>,

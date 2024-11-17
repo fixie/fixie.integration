@@ -1,10 +1,9 @@
-﻿using Fixie;
-using Fixie.Reports;
+﻿using Fixie.Reports;
 using static System.Environment;
 
-namespace CustomConvention.Tests;
+namespace Fixie.Integration.Reports;
 
-class GitHubReport(TestEnvironment environment) :
+public class GitHubReport(TestEnvironment environment) :
     IHandler<ExecutionStarted>,
     IHandler<ExecutionCompleted>
 {

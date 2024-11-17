@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Fixie;
 using Fixie.Integration;
+using Fixie.Integration.Reports;
 
 namespace CustomConvention.Tests;
 
@@ -15,12 +16,7 @@ public class TestProject : ITestProject
 
         configuration.Conventions.Add(discovery, execution);
 
-        if (environment.IsContinuousIntegration())
-        {
-            configuration.Reports.Add(new XUnitV2XmlReport(environment));
-            configuration.Reports.Add(new JsonReport(environment));
-            configuration.Reports.Add(new GitHubReport(environment));
-        }
+        configuration.ConfigureReports(environment);
     }
 
     class CustomDiscovery : IDiscovery
