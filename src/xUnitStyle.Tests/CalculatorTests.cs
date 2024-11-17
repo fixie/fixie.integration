@@ -15,22 +15,17 @@ public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableF
     public CalculatorTests()
     {
         calculator = new Calculator();
-        Log.WhereAmI();
     }
 
     public void SetFixture(FixtureData data)
     {
-        Log.WhereAmI();
         fixtureData = data;
-        Log.WriteLine("   FixtureData " + fixtureData.Instance);
         data.Instance.ShouldBe(1);
     }
 
     public void SetFixture(DisposableFixtureData data)
     {
-        Log.WhereAmI();
         disposableFixtureData = data;
-        Log.WriteLine("   DisposableFixtureData " + disposableFixtureData.Instance);
         data.Instance.ShouldBe(1);
     }
 
@@ -38,7 +33,6 @@ public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableF
     public void ShouldAdd()
     {
         executedAddTest = true;
-        Log.WhereAmI();
         calculator.Add(2, 3).ShouldBe(5);
     }
 
@@ -46,13 +40,11 @@ public class CalculatorTests : IUseFixture<FixtureData>, IUseFixture<DisposableF
     public void ShouldSubtract()
     {
         executedSubtractTest = true;
-        Log.WhereAmI();
         calculator.Subtract(5, 3).ShouldBe(2);
     }
 
     public void Dispose()
     {
-        Log.WhereAmI();
         (executedAddTest && executedSubtractTest).ShouldBe(false);
         (executedAddTest || executedSubtractTest).ShouldBe(true);
     }

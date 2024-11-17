@@ -11,12 +11,10 @@ public class NestedTests
         public AddingTests()
         {
             calculator = new Calculator();
-            Log.WhereAmI();
         }
 
         public void ShouldAdd()
         {
-            Log.WhereAmI();
             calculator.Add(2, 3).ShouldBe(5);
         }
     }
@@ -28,12 +26,10 @@ public class NestedTests
         public SubtractingTests()
         {
             calculator = new Calculator();
-            Log.WhereAmI();
         }
 
         public void ShouldSubtract()
         {
-            Log.WhereAmI();
             calculator.Subtract(5, 3).ShouldBe(2);
         }
     }

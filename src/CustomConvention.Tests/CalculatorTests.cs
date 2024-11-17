@@ -8,19 +8,16 @@ class CalculatorTests
 
     public CalculatorTests()
     {
-        Log.WhereAmI();
     }
 
     public void SetUp()
     {
-        Log.WhereAmI();
         calculator = new Calculator();
     }
 
     [CategoryA]
     public void ShouldAdd()
     {
-        Log.WhereAmI();
         calculator.ShouldNotBeNull();
         calculator.Add(2, 3).ShouldBe(5);
     }
@@ -28,7 +25,6 @@ class CalculatorTests
     [CategoryB]
     public void ShouldSubtract()
     {
-        Log.WhereAmI();
         calculator.ShouldNotBeNull();
         calculator.Subtract(5, 3).ShouldBe(2);
     }
@@ -38,7 +34,6 @@ class CalculatorTests
     [CategoryA]
     public void ShouldAdd(int a, int b, int expectedSum)
     {
-        Log.WhereAmI(new object[] { a, b, expectedSum });
         calculator.ShouldNotBeNull();
         calculator.Add(a, b).ShouldBe(expectedSum);
     }
@@ -47,25 +42,21 @@ class CalculatorTests
     [Input(2L, 4L, typeof(long))]
     public void ShouldInferGenericTypes<T>(T a, T b, Type expectedT)
     {
-        Log.WhereAmI<T>(new object?[] { a, b, expectedT });
         typeof(T).ShouldBe(expectedT, $"Expected T to resolve to type {expectedT}, but it resolved to type {typeof(T)} instead.");
     }
 
     public void ShouldFail()
     {
-        Log.WhereAmI();
         throw new Exception("This test is written to fail, to demonstrate failure reporting.");
     }
 
     [Skip]
     public void ShouldBeSkipped()
     {
-        Log.WhereAmI();
         throw new Exception(nameof(ShouldBeSkipped) + " was invoked explicitly.");
     }
 
     public void TearDown()
     {
-        Log.WhereAmI();
     }
 }

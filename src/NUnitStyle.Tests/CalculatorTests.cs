@@ -9,26 +9,22 @@ public class CalculatorTests
 
     public CalculatorTests()
     {
-        Log.WhereAmI();
     }
 
     [TestFixtureSetUp]
     public void TestFixtureSetUp()
     {
-        Log.WhereAmI();
         calculator = new Calculator();
     }
 
     [SetUp]
     public void SetUp()
     {
-        Log.WhereAmI();
     }
 
     [Test]
     public void ShouldAdd()
     {
-        Log.WhereAmI();
         calculator.ShouldNotBeNull();
         calculator.Add(2, 3).ShouldBe(5);
     }
@@ -36,7 +32,6 @@ public class CalculatorTests
     [Test]
     public void ShouldSubtract()
     {
-        Log.WhereAmI();
         calculator.ShouldNotBeNull();
         calculator.Subtract(5, 3).ShouldBe(2);
     }
@@ -44,7 +39,6 @@ public class CalculatorTests
     [Test]
     public void ShouldDivide()
     {
-        Log.WhereAmI();
         calculator.ShouldNotBeNull();
         calculator.Divide(6, 3).ShouldBe(2);
     }
@@ -53,7 +47,6 @@ public class CalculatorTests
     [ExpectedException(typeof(DivideByZeroException))]
     public void ShouldThrowWhenDividingByZero()
     {
-        Log.WhereAmI();
         calculator.ShouldNotBeNull();
         calculator.Divide(1, 0);
     }
@@ -61,12 +54,10 @@ public class CalculatorTests
     [TearDown]
     public void TearDown()
     {
-        Log.WhereAmI();
     }
 
     [TestFixtureTearDown]
     public void TestFixtureTearDown()
     {
-        Log.WhereAmI();
     }
 }

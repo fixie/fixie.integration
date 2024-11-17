@@ -11,18 +11,15 @@ class IoCTests
     {
         this.database = database;
         this.service = service;
-        Log.WhereAmI();
     }
 
     public void ShouldReceiveRealDatabase()
     {
-        Log.WhereAmI();
         database.Query().ShouldBe("RealDatabase");
     }
 
     public void ShouldReceiveFakeThirdPartyService()
     {
-        Log.WhereAmI();
         service.Invoke().ShouldBe("FakeThirdPartyService");
     }
 }

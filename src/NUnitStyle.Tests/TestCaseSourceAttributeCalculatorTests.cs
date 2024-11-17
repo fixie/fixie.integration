@@ -10,19 +10,16 @@ public class TestCaseSourceAttributeCalculatorTests
     public TestCaseSourceAttributeCalculatorTests()
     {
         calculator = new Calculator();
-        Log.WhereAmI();
     }
 
     [TestFixtureSetUp]
     public void TestFixtureSetUp()
     {
-        Log.WhereAmI();
     }
 
     [SetUp]
     public void SetUp()
     {
-        Log.WhereAmI();
     }
 
     public static IEnumerable<object[]> FieldSource = new List<object[]>
@@ -61,20 +58,17 @@ public class TestCaseSourceAttributeCalculatorTests
     [TestCaseSource("PropertySource")]
     public void ShouldAddFromFieldSource(string source, int a, int b, int expectedSum)
     {
-        Log.WriteLine($"{source}: ShouldAdd({a}, {b}, {expectedSum})");
         calculator.Add(a, b).ShouldBe(expectedSum);
     }
 
     [TearDown]
     public void TearDown()
     {
-        Log.WhereAmI();
     }
 
     [TestFixtureTearDown]
     public void TestFixtureTearDown()
     {
-        Log.WhereAmI();
     }
 }
 
