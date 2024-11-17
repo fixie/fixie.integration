@@ -64,7 +64,7 @@ public class XUnitV2XmlReport :
                     new XAttribute("failed", message.Failed),
                     new XAttribute("skipped", message.Skipped),
                     new XAttribute("environment", $"{IntPtr.Size * 8}-bit {environment.TargetFramework}"),
-                    new XAttribute("test-framework", /*TODO: environment.TestFramework*/ "Fixie v4"),
+                    new XAttribute("test-framework", environment.TestFramework),
                     report.Values.Select(x => x.ToElement())))));
 
         report.Clear();
