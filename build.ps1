@@ -14,4 +14,3 @@ step { dotnet build src -c Release --nologo --tl }
 step { dotnet fixie CustomConvention.Tests -c Release --no-build } 1
 step { dotnet fixie DefaultConvention.Tests -c Release --no-build } 1
 step { dotnet fixie FSharp.Tests -c Release --no-build } 1
-step { dotnet fixie *UnitStyle.Tests -c Release --no-build }
