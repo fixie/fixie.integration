@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="CustomConvention.Tests/CustomConvention.Tests.csproj" />
+  <Project Path="DefaultConvention.Tests/DefaultConvention.Tests.csproj" />
+  <Project Path="Fixie.Integration/Fixie.Integration.csproj" />
+  <Project Path="FSharp.Tests/FSharp.Tests.fsproj" />
+</Solution>
